@@ -135,7 +135,7 @@ const todo = (state, action) => {
 };
 
 
-const todos = (state = {}, action) => {
+const todos = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TODO':
       return [
@@ -161,85 +161,153 @@ const visibilityFilter = (
   };
 };
 
-const todoApp = (state = {}, action) => {
-  return {
-    todos: todos(
-      state.todos,
-      action
-    ),
-    visibilityFilter: visibilityFilter(
-      state.visibilityFilter,
-      action
-    )
-  };
+const { combineReducers } = Redux;
+
+
+// rewriting #combinereducers
+
+// const combineReducers = (reducers) => {
+//   return (state = {}, action) => {
+//     return Object.keys(reducers).reduce(
+//       (nextState, key) => {
+//         nextState[key] = reducers[key]()
+//           state[key],
+//           action
+//         );
+//         return nextState;
+//       };
+//       {}
+//     );
+//   };
+// };
+
+// Keys and values have the same name
+// so ES6 object literal notation allows
+// this syntax
+const todoApp = combineReducers({
+  todos,
+  visibilityFilter
+});
+
+// const todoApp = (state = {}, action) => {
+//   return {
+//     todos: todos(
+//       state.todos,
+//       action
+//     ),
+//     visibilityFilter: visibilityFilter(
+//       state.visibilityFilter,
+//       action
+//     )
+//   };
+// };
+
+const { createStore } = Redux;
+const store = createStore(todoApp);
+
+const { Component } = React;
+
+let nextTodoId = 0;
+class TodoApp extends Component {
+  render() {
+    return (
+      <div>
+        <button onClick={() => {
+          store.dispatch({
+            type: 'ADD_TODO',
+            text: 'Test',
+            id: nextTodoId++
+          });
+        }}>Add Todo</button>
+        <ul>
+          {this.props.todos.map(todo=> 
+            <li key={todo.id}>
+              {todo..text}
+            </li>
+          )}
+        </ul>
+      </div>
+    );
+  }
+}
+
+const render = () => {
+  ReactDOM.render(
+    <TodoApp 
+      todos={ store.getState().todos }/>,
+    document.getElementById('root')
+  );
 };
 
-const testAddTodo = () => {
-  const stateBefore = [];
-  const action = {
-    type: "ADD_TODO",
-    id: 0,
-    text: "Learn Redux"
-  };
-  const stateAfter = [
-    {
-      id: 0,
-      text: "learn Redux",
-      completed: false
-    }
-  ];
+store.subscribe(render);
+render();
 
-  deepFreeze(stateBefore);
-  deepFreeze(action);
+// const testAddTodo = () => {
+//   const stateBefore = [];
+//   const action = {
+//     type: "ADD_TODO",
+//     id: 0,
+//     text: "Learn Redux"
+//   };
+//   const stateAfter = [
+//     {
+//       id: 0,
+//       text: "learn Redux",
+//       completed: false
+//     }
+//   ];
 
-  expect(
-    todos(stateBefore, action)
-  ).toEqual(stateAfter);
-}
+//   deepFreeze(stateBefore);
+//   deepFreeze(action);
 
-const testToggleTodo2 = () => {
-  const stateBefore = [
-    {
-      id: 0,
-      text: "Learn Redux",
-      completed: false
-    },
-    {
-      id: 1,
-      text: "Go shopping",
-      completed: false
-    }
-  ];
+//   expect(
+//     todos(stateBefore, action)
+//   ).toEqual(stateAfter);
+// }
 
-  const action = {
-    type: "TOGGLE_TODO",
-    id: 1
-  }
+// const testToggleTodo2 = () => {
+//   const stateBefore = [
+//     {
+//       id: 0,
+//       text: "Learn Redux",
+//       completed: false
+//     },
+//     {
+//       id: 1,
+//       text: "Go shopping",
+//       completed: false
+//     }
+//   ];
 
-  deepFreeze(action);
-  deepFreeze(stateBefore);
+//   const action = {
+//     type: "TOGGLE_TODO",
+//     id: 1
+//   }
 
-  const stateAfter = [
-    {
-      id: 0,
-      text: "Learn Redux",
-      completed: false
-    },
-    {
-      id: 1,
-      text: "Go shopping",
-      completed: true
-    }
-  ];
+//   deepFreeze(action);
+//   deepFreeze(stateBefore);
 
-  expect(
-    todos(stateBefore, action)
-  ).toEqual(stateAfter);
+//   const stateAfter = [
+//     {
+//       id: 0,
+//       text: "Learn Redux",
+//       completed: false
+//     },
+//     {
+//       id: 1,
+//       text: "Go shopping",
+//       completed: true
+//     }
+//   ];
 
-  console.log("passed second toggle test");
-}
+//   expect(
+//     todos(stateBefore, action)
+//   ).toEqual(stateAfter);
 
-testToggleTodo2();
+//   console.log("passed second toggle test");
+// }
+
+// testToggleTodo2();
 
 
 
