@@ -44,84 +44,71 @@
 /* 0 */
 /***/ function(module, exports) {
 
-	
 	const counter = (state = 0, action) => {
-	
-		switch (action.type) {
-			case 'INCREMENT':
-				return state + 1;
-			case 'DECREMENT':
-				return state - 1;
-			default:
-				return state;
-		}
+	  switch (action.type) {
+	    case 'INCREMENT':
+	      return state + 1;
+	    case 'DECREMENT':
+	      return state - 1;
+	    default:
+	      return state;
+	  }
 	};
 	
-	// rwrite createStore
-	
-	// const createStore = (reducer) => {
-	// 	let state;
-	// 	let listeners = [];
-	
-	// 	const getState = () => state;
-	
-	// 	const dispatch = (action) =. {
-	// 		state = reducer(state, action);
-	// 		listeners.forEach(listener => listener());
-	// 	}
-	
-	// 	const subscribe = (listener) => {
-	// 		listeners.push(listener);
-	// 		return () => {
-	// 			listeners = listeners.filter(l => l !== listener);
-	// 		};
-	// 	}
-	
-	// 	dispatch({});
-	
-	// 	return { getSTate, dispatch, subscribe }
-	// }
+	const Counter = ({ value, onIncrement, onDecrement }) => React.createElement(
+	  'div',
+	  null,
+	  React.createElement(
+	    'h1',
+	    null,
+	    value
+	  ),
+	  React.createElement(
+	    'button',
+	    { onClick: onIncrement },
+	    '+'
+	  ),
+	  React.createElement(
+	    'button',
+	    { onClick: onDecrement },
+	    '-'
+	  )
+	);
 	
 	const { createStore } = Redux;
 	const store = createStore(counter);
 	
-	const Counter = ({
-		value,
-		onIncrement,
-		onDecrement
-	}) => React.createElement(
-		'div',
-		null,
-		React.createElement(
-			'h1',
-			null,
-			value
-		),
-		React.createElement(
-			'button',
-			{ onClick: onIncrement },
-			'+'
-		),
-		React.createElement(
-			'button',
-			{ onClick: onDecrement },
-			'-'
-		)
-	);
-	
 	const render = () => {
-		ReactDOM.render(React.createElement(Counter, {
-			value: store.getState(),
-			onIncrement: () => store.dispatch({
-				type: "INCREMENT"
-			}),
-			onDecrement: () => store.dispatch({
-				type: "DECREMENT"
-			}) }), document.getElementById('root'));
+	  ReactDOM.render(React.createElement(Counter, {
+	    value: store.getState(),
+	    onIncrement: () => store.dispatch({
+	      type: "INCREMENT"
+	    }),
+	    onDecrement: () => store.dispatch({
+	      type: "DECREMENT"
+	    }) }), document.getElementById('root'));
 	};
 	
 	store.subscribe(render);
-	render;
+	render();
+	
+	// var HelloWorld = React.createClass({
+	//   render: function() {
+	//     return (
+	//       <p>
+	//         Hello, <input type="text" placeholder="Your name here" />!
+	//         It is {this.props.date.toTimeString()}
+	//       </p>
+	//     );
+	//   }
+	// });
+
+	// setInterval(function() {
+	//   ReactDOM.render(
+	//     <HelloWorld date={new Date()} />,
+	//     document.getElementById('root')
+	//   );
+	// }, 500);
 
 /***/ }
 /******/ ]);
