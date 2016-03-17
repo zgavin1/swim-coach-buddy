@@ -93,7 +93,7 @@ const toggleTodo = (todo) => {
   });
 }
 
-const testToggleTodo = () => {
+const testToggleTodo1 = () => {
   const todoBefore = {
     id: 0,
     text: 'Learn Redux',
@@ -112,32 +112,66 @@ const testToggleTodo = () => {
   ).toEqual(todoAfter);
 }
 
+const todo = (state, action) => {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return {
+        id: action.id,
+        text: action.text,
+        completed: false
+      };
+    case 'TOGGLE_TODO':
+      if (state.id !== action.id) {
+        return todo
+      }
+
+      return {
+        ...state,
+        completed: !state.completed
+      };
+    default:
+      return state
+  }
+};
+
 
 const todos = (state = {}, action) => {
   switch (action.type) {
     case 'ADD_TODO':
       return [
         ...state,
-        {
-          id: action.id,
-          text: action.text,
-          completed: false
-        }
+        todo(undefined, action)
       ];
     case 'TOGGLE_TODO':
-      return state.map(todo => {
-        if (todo.id !== action.id) {
-          return todo
-        }
-
-        return {
-          ...todo,
-          completed: !todo.completed
-        };
-      });
+      return state.map(t => todo(t, action));
     default:
       return state;
   }
+};
+
+const visibilityFilter = (
+  state = "SHOW_ALL",
+  action
+) => {
+  switch (action.type) {
+    case 'SET_VISIBILITY_FILTER':
+      return action.filter;
+    default:
+      return state;
+  };
+};
+
+const todoApp = (state = {}, action) => {
+  return {
+    todos: todos(
+      state.todos,
+      action
+    ),
+    visibilityFilter: visibilityFilter(
+      state.visibilityFilter,
+      action
+    )
+  };
 };
 
 const testAddTodo = () => {
@@ -163,9 +197,7 @@ const testAddTodo = () => {
   ).toEqual(stateAfter);
 }
 
-testAddTodo();
-
-const testToggleTodo = () => {
+const testToggleTodo2 = () => {
   const stateBefore = [
     {
       id: 0,
@@ -201,8 +233,13 @@ const testToggleTodo = () => {
   ];
 
   expect(
-    )
+    todos(stateBefore, action)
+  ).toEqual(stateAfter);
+
+  console.log("passed second toggle test");
 }
+
+testToggleTodo2();
 
 
 
