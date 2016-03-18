@@ -176,10 +176,6 @@ const todoApp = combineReducers({
 //     )
 //   };
 // };
-
-const { createStore } = Redux;
-const store = createStore(todoApp);
-
 const { Component } = React;
 
 const Link = ({
@@ -205,6 +201,7 @@ const Link = ({
 
 class FilterLink extends Component {
   componentDidMount() {
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(() =>
       this.forceUpdate()
     );
@@ -216,6 +213,7 @@ class FilterLink extends Component {
 
   render() {
     const props = this.props;
+    const { store } = this.context;
     const state = store.getState();
 
     return (
@@ -234,6 +232,9 @@ class FilterLink extends Component {
     );
   }
 }
+FilterLink.contextTypes = {
+  store: React.PropTypes.object
+};
 
 const Footer = () => (
   <p>
@@ -287,7 +288,10 @@ const TodoList = ({
   </ul>  
 )
 
-const AddTodo = () => {
+// Context is passed down as the second argument
+// so we can use ES6 syntax to get the store from context
+// right in the arguments signature, just like so
+const AddTodo = (props, { store }) => {
   let input;
   
   return (
@@ -299,12 +303,15 @@ const AddTodo = () => {
         store.dispatch({
           type: "ADD_TODO",
           id: nextTodoId++,
-          text
+          text: input.value
         })
         input.value = '';
       }}>Add Todo</button>
     </div>
   );
+};
+AddTodo.contextTypes = {
+  store: React.PropTypes.object
 };
 
 const getVisibleTodos = (
@@ -329,6 +336,7 @@ const getVisibleTodos = (
 
 class VisibleTodoList extends Component {
   componentDidMount() {
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(() =>
       this.forceUpdate()
     );
@@ -341,6 +349,7 @@ class VisibleTodoList extends Component {
 
   render() {
     const props = this.props;
+    const { store } = this.context;
     const state = store.getState();
 
     return (
@@ -352,7 +361,7 @@ class VisibleTodoList extends Component {
           )
         }
         onTodoClick={id =>
-          store.dispatch({}
+          store.dispatch({
             type: "TOGGLE_TODO",
             id
           })
@@ -360,6 +369,9 @@ class VisibleTodoList extends Component {
     );
   }
 }
+VisibleTodoList.contextTypes = {
+  store: React.PropTypes.object
+};
 
 
 let nextTodoId = 0;
@@ -371,10 +383,32 @@ const TodoApp = () => (
   </div>
 );
 
+
+// Build Provider classs specifically for
+// dependency injection of the store. Context
+// typically goes against the React principle of explicit
+// data flow, creating a "wormhole" for the data
+class Provider extends Component {
+  getChildContext() {
+    return {
+      store: this.props.store
+    };
+  }
+
+  render() {
+    return this.props.children;
+  }
+}
+Provider.childContextTypes = {
+  store: React.PropTypes.object
+};
+
 const { createStore } = Redux;
 
 ReactDOM.render(
-  <TodoApp store={createStore(todoApp)} />,
+  <Provider store={createStore(todoApp)}>
+    <TodoApp />
+  </Provider>,
   document.getElementById('root')
 );
 // const testAddTodo = () => {
