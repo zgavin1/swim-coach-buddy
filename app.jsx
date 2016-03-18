@@ -177,6 +177,7 @@ const todoApp = combineReducers({
 //   };
 // };
 const { Component } = React;
+const { connect } = ReactRedux;
 
 const Link = ({
   active,
@@ -291,7 +292,7 @@ const TodoList = ({
 // Context is passed down as the second argument
 // so we can use ES6 syntax to get the store from context
 // right in the arguments signature, just like so
-const AddTodo = (props, { store }) => {
+let AddTodo = ({ dispatch }) => {
   let input;
   
   return (
@@ -300,7 +301,7 @@ const AddTodo = (props, { store }) => {
           input = node;
          }} />
       <button onClick={() => {
-        store.dispatch({
+        dispatch({
           type: "ADD_TODO",
           id: nextTodoId++,
           text: input.value
@@ -310,9 +311,19 @@ const AddTodo = (props, { store }) => {
     </div>
   );
 };
-AddTodo.contextTypes = {
-  store: React.PropTypes.object
-};
+
+// Connect call without any argument will 
+// not subscribe to the store, but will provide dispatch
+AddTodo = connect()(AddTodo)
+
+// AddTodo = connect(
+//   state => {
+//     return {};
+//   },
+//   dispatch => {
+//     return { dispatch };
+//   }
+// )(addTodo);
 
 const getVisibleTodos = (
   todos,
@@ -334,7 +345,7 @@ const getVisibleTodos = (
   }
 }
 
-const MapStateToProps = (state) => {
+const MapStateToTodoListProps = (state) => {
   return {
     todos: getVisibleTodos(
       state.todos,
@@ -343,7 +354,7 @@ const MapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToTodoListProps = (dispatch) => {
   return {
     onTodoClick: (id) => {
       dispatch({
@@ -357,10 +368,10 @@ const mapDispatchToProps = (dispatch) => {
 // Connect function does literally everything in the
 // class we already wrote "VisbleTodoList" if we pass
 // in both mapping functions from above
-const { connect } = ReactRedux;
+
 const VisibleTodoList = connect(
-  MapStateToProps,
-  mapDispatchToProps
+  MapStateToTodoListProps,
+  mapDispatchToTodoListProps
 )(TodoList);
 
 
