@@ -388,21 +388,22 @@ const TodoApp = () => (
 // dependency injection of the store. Context
 // typically goes against the React principle of explicit
 // data flow, creating a "wormhole" for the data
-class Provider extends Component {
-  getChildContext() {
-    return {
-      store: this.props.store
-    };
-  }
+// class Provider extends Component {
+//   getChildContext() {
+//     return {
+//       store: this.props.store
+//     };
+//   }
 
-  render() {
-    return this.props.children;
-  }
-}
-Provider.childContextTypes = {
-  store: React.PropTypes.object
-};
+//   render() {
+//     return this.props.children;
+//   }
+// }
+// Provider.childContextTypes = {
+//   store: React.PropTypes.object
+// };
 
+const { Provider } = ReactRedux;
 const { createStore } = Redux;
 
 ReactDOM.render(
