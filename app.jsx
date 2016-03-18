@@ -334,44 +334,69 @@ const getVisibleTodos = (
   }
 }
 
-class VisibleTodoList extends Component {
-  componentDidMount() {
-    const { store } = this.context;
-    this.unsubscribe = store.subscribe(() =>
-      this.forceUpdate()
-    );
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-
-  render() {
-    const props = this.props;
-    const { store } = this.context;
-    const state = store.getState();
-
-    return (
-      <TodoList
-        todos={
-          getVisibleTodos(
-            state.todos,
-            state.visibilityFilter
-          )
-        }
-        onTodoClick={id =>
-          store.dispatch({
-            type: "TOGGLE_TODO",
-            id
-          })
-        } />
-    );
-  }
-}
-VisibleTodoList.contextTypes = {
-  store: React.PropTypes.object
+const MapStateToProps = (state) => {
+  return {
+    todos: getVisibleTodos(
+      state.todos,
+      state.visibilityFilter
+    )
+  };
 };
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onTodoClick: (id) => {
+      dispatch({
+        type: "TOGGLE_TODO",
+        id
+      })
+    }
+  };
+};
+
+// Connect function does literally everything in the
+// class we already wrote "VisbleTodoList" if we pass
+// in both mapping functions from above
+const { connect } = ReactRedux;
+const VisibleTodoList = connect(
+  MapStateToProps,
+  mapDispatchToProps
+)(TodoList);
+
+
+
+// class VisibleTodoList extends Component {
+//   componentDidMount() {
+//     const { store } = this.context;
+//     this.unsubscribe = store.subscribe(() =>
+//       this.forceUpdate()
+//     );
+//   }
+
+//   componentWillUnmount() {
+//     this.unsubscribe();
+//   }
+
+
+//   render() {
+//     const props = this.props;
+//     const { store } = this.context;
+//     const state = store.getState();
+
+//     return (
+//       <TodoList
+//         todos={
+
+//         }
+//         onTodoClick={id =>
+          
+//         } />
+//     );
+//   }
+// }
+// VisibleTodoList.contextTypes = {
+//   store: React.PropTypes.object
+// };
 
 
 let nextTodoId = 0;
