@@ -311,9 +311,21 @@ const TodoList = ({
   </ul>  
 )
 
-// Context is passed down as the second argument
-// so we can use ES6 syntax to get the store from context
-// right in the arguments signature, just like so
+let nextTodoId = 0;
+
+// This is called abstraction the action creator
+// It is common Redux pattern, could be done 
+// in every single place where a larger function
+// or class dispatches an action.
+const addTodo = (text) => {
+  return {
+    type: "ADD_TODO",
+    id: nextTodoId,
+    text
+  };
+};
+
+// gets dispatch using ES6 syntax directly from props
 let AddTodo = ({ dispatch }) => {
   let input;
   
@@ -323,11 +335,7 @@ let AddTodo = ({ dispatch }) => {
           input = node;
          }} />
       <button onClick={() => {
-        dispatch({
-          type: "ADD_TODO",
-          id: nextTodoId++,
-          text: input.value
-        })
+        dispatch(addTodo(input.value))
         input.value = '';
       }}>Add Todo</button>
     </div>
@@ -432,7 +440,7 @@ const VisibleTodoList = connect(
 // };
 
 
-let nextTodoId = 0;
+
 const TodoApp = () => (
   <div>
     <AddTodo />
