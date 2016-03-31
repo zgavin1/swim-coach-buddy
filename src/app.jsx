@@ -1,98 +1,15 @@
-// const counter = (state = 0, action) => {
-// 	switch (action.type) {
-//   	case 'INCREMENT':
-// 			return state + 1;
-//     case 'DECREMENT':
-//     	return state - 1;
-//     default:
-//     	return state;
-//   }
-// }
-
-// const Counter = ({ value, onIncrement, onDecrement }) => (
-// 	<div>
-//   	<h1>{value}</h1>
-//   	<button onClick={onIncrement}>+</button>
-//     <button onClick={onDecrement}>-</button>
-//   </div>
-// );
-
-// const { createStore } = Redux;
-// const store = createStore(counter);
-
-// const render = () => {
-// 	ReactDOM.render(
-//   	<Counter
-//     	value={store.getState()}
-//       onIncrement={() =>
-//       	store.dispatch({
-//         	type: "INCREMENT"
-//         })
-//       }
-//       onDecrement={() =>
-//       	store.dispatch({
-//         	type: "DECREMENT"
-//         })
-//       } />,
-//     document.getElementById('root')
-//   )
-// }
-
-// store.subscribe(render);
-// render();
-
-
-
-// var HelloWorld = React.createClass({
-//   render: function() {
-//     return (
-//       <p>
-//         Hello, <input type="text" placeholder="Your name here" />!
-//         It is {this.props.date.toTimeString()}
-//       </p>
-//     );
-//   }
-// });
-
-// setInterval(function() {
-//   ReactDOM.render(
-//     <HelloWorld date={new Date()} />,
-//     document.getElementById('root')
-//   );
-// }, 500);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // // Todo App
-const todo = (state, action) => {
+const todo = (
+  state,
+  action
+) => {
   switch (action.type) {
     case 'ADD_TODO':
       return {
         id: action.id,
-        text: action.text,
+        count: action.count,
+        dist: action.dist,
+        interval: action.interval,
         completed: false
       };
     case 'TOGGLE_TODO':
@@ -110,7 +27,10 @@ const todo = (state, action) => {
 };
 
 
-const todos = (state = [], action) => {
+const todos = (
+  state = [],
+  action
+) => {
   switch (action.type) {
     case 'ADD_TODO':
       return [
@@ -135,6 +55,34 @@ const visibilityFilter = (
   
   return state;
 };
+
+
+// Could include laps later.
+
+const stopWatch = (
+  state = {running: false, time: 0},
+  action
+) => {
+  switch (action.type) {
+    case 'INCREMENT_STOPWATCH':
+      return {
+        ...state,
+        time: state.time+1
+      }
+    case 'TOGGLE_STOPWATCH':
+      return {
+        ...state,
+        running: !state.running,
+      };
+    case 'RESET_STOPWATCH':
+      return {
+        ...state,
+        time: 0
+      };
+    default:
+      return state;
+  } 
+}
 
 const { combineReducers } = Redux;
 
@@ -161,7 +109,8 @@ const { combineReducers } = Redux;
 // this syntax
 const todoApp = combineReducers({
   todos,
-  visibilityFilter
+  visibilityFilter,
+  stopWatch
 });
 
 // const todoApp = (state = {}, action) => {
@@ -173,7 +122,11 @@ const todoApp = combineReducers({
 //     visibilityFilter: visibilityFilter(
 //       state.visibilityFilter,
 //       action
-//     )
+//     ),
+//     stopWatch: stopWatch(
+//       state.stopWatch,
+//       action
+  //   )
 //   };
 // };
 const { Component } = React;
@@ -283,26 +236,146 @@ const Footer = () => (
   </p>
 )
 
+// 
+// 
+//
+
+
+
+const StopWatchDisplay = ({
+  running,
+  time,
+  onClick,
+  onRunning
+}) => {
+  // let intervalId;
+  if (running) {
+    setTimeout(onRunning, 100);
+  }
+
+  let button = 
+    <button
+      onClick={onClick}>
+      { (running ? "STOP" : "START") }
+    </button>;
+
+  return (
+    <div>
+      <span> {time} </span>
+      { button }
+    </div>
+  );
+};
+
+const mapStateToStopWatchProps = (
+  state
+) => {
+  return {
+    running: state.stopWatch.running,
+    time: state.stopWatch.time
+  }
+}
+
+const mapDispatchToStopWatchProps = (
+  dispatch
+) => {
+  return {
+    onClick: () => {
+      dispatch({
+        type: "TOGGLE_STOPWATCH"
+      })
+    },
+    onRunning: () => {
+      dispatch({
+        type: "INCREMENT_STOPWATCH"
+      })
+    }
+  };
+};
+
+const StopWatch = connect(
+  mapStateToStopWatchProps,
+  mapDispatchToStopWatchProps
+)(StopWatchDisplay);
+
+
+// const Link = ({
+//   active,
+//   children,
+//   onClick
+// }) => {
+//   if (active) {
+//     return <span> {children} </span>
+//   }
+
+//   return (
+//     <a href="#"
+//       onClick={e => {
+//         e.preventDefault();
+//         onClick();
+//       }}
+//     >
+//       {children}
+//     </a>
+//   );
+// };
+
+// const mapStateToLinkProps = (
+//   state,
+//   ownProps
+// ) => {
+//   return {
+//     active: ownProps.filter === state.visibilityFilter
+//   };
+// };
+
+// const mapDispatchToLinkProps = (
+//   dispatch,
+//   ownProps
+// ) => {
+//   return {
+//     onClick: () => {
+//       dispatch({
+//         type: "SET_VISIBILITY_FILTER",
+//         filter: ownProps.filter
+//       });
+//     }
+//   };
+// };
+
+// const FilterLink = connect(
+//   mapStateToLinkProps,
+//   mapDispatchToLinkProps
+// )(Link);
+
+
+
+
 const Todo = ({
   onClick,
   completed,
-  text
-}) => (
-  <li
-    onClick={onClick}
-    style={{
-      textDecoration: completed ? "line-through" : "none"
-    }}>
-    {text}
-  </li>
-)
+  count,
+  dist,
+  interval
+}) => {
+
+  return (
+    <li
+      onClick={onClick}
+      style={{
+        textDecoration: completed ? "line-through" : "none"
+      }}>
+      {count} x {dist} @ {interval}
+    </li>
+  )
+}
 
 const TodoList = ({
   todos,
   onTodoClick
 }) => (
   <ul>
-    {todos.map(todo =>
+    {todos.reverse().map(todo =>
       <Todo
         key={todo.id}
         {...todo}
@@ -317,34 +390,77 @@ let nextTodoId = 0;
 // It is common Redux pattern, could be done 
 // in every single place where a larger function
 // or class dispatches an action.
-const addTodo = (text) => {
+const addTodo = (count, dist, interval) => {
   return {
     type: "ADD_TODO",
     id: nextTodoId++,
-    text
+    count,
+    dist,
+    interval
   };
 };
 
 // gets dispatch using ES6 syntax directly from props
 let AddTodo = ({ dispatch }) => {
-  let input;
+  let dist;
+  let count;
+  let minutes;
+  let seconds;
   
   return (
-    <div>
+    <form onSubmit={(e) => {
+        e.preventDefault(); 
+        if (dist.value === "" || count.value === "" || (minutes.value === "0" && seconds.value === "00")) {
+          return;
+        }
+        const displaySeconds = parseInt(seconds.value) < 10 ? "0" + seconds.value : seconds.value;
+        let displayMinutes = parseInt(minutes.value);
+        if (displayMinutes === 0) {
+          displayMinutes = "";
+        }
+        const displayInterval = minutes.value.slice(minutes.value.length - 2) + ":" + displaySeconds.slice(displaySeconds.length - 2);
+        dispatch(addTodo(count.value, dist.value, displayInterval));
+        document.getElementById('set-form').reset();
+      }}
+      id="set-form"
+    >
+      <h3>Reps</h3>
       <input ref={node=> {
-          input = node;
-         }} />
-      <button onClick={() => {
-        dispatch(addTodo(input.value))
-        input.value = '';
-      }}>Add Todo</button>
-    </div>
+          count=node;
+        }}
+        type="number"
+        min="1"
+        max="100" />
+      <h3>Distance</h3>
+      <input ref={node=> {
+          dist = node;
+         }}
+         type="number"
+         min="25"
+         max="1000"
+         step="25" />
+      <h3>Interval</h3>
+      <input ref={node=> {
+          minutes=node;
+        }}
+        type="number"
+        min="0"
+        defaultValue="0" />:
+      <input ref={node=> {
+          seconds=node;
+        }}
+        type="number"
+        min="0"
+        max="59"
+        defaultValue="00" />
+      <input type="submit" value="Add Todo" />
+    </form>
   );
 };
 
 // Connect call without any argument will 
 // not subscribe to the store, but will provide dispatch
-AddTodo = connect()(AddTodo)
+const AddTodos = connect()(AddTodo)
 
 // AddTodo = connect(
 //   state => {
@@ -441,11 +557,14 @@ const VisibleTodoList = connect(
 
 
 
+
+
 const TodoApp = () => (
   <div>
-    <AddTodo />
+    <AddTodos />
     <VisibleTodoList />
     <Footer />
+    <StopWatch />
   </div>
 );
 
@@ -478,146 +597,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-// const testAddTodo = () => {
-//   const stateBefore = [];
-//   const action = {
-//     type: "ADD_TODO",
-//     id: 0,
-//     text: "Learn Redux"
-//   };
-//   const stateAfter = [
-//     {
-//       id: 0,
-//       text: "learn Redux",
-//       completed: false
-//     }
-//   ];
-
-//   deepFreeze(stateBefore);
-//   deepFreeze(action);
-
-//   expect(
-//     todos(stateBefore, action)
-//   ).toEqual(stateAfter);
-// }
-
-// const testToggleTodo2 = () => {
-//   const stateBefore = [
-//     {
-//       id: 0,
-//       text: "Learn Redux",
-//       completed: false
-//     },
-//     {
-//       id: 1,
-//       text: "Go shopping",
-//       completed: false
-//     }
-//   ];
-
-//   const action = {
-//     type: "TOGGLE_TODO",
-//     id: 1
-//   }
-
-//   deepFreeze(action);
-//   deepFreeze(stateBefore);
-
-//   const stateAfter = [
-//     {
-//       id: 0,
-//       text: "Learn Redux",
-//       completed: false
-//     },
-//     {
-//       id: 1,
-//       text: "Go shopping",
-//       completed: true
-//     }
-//   ];
-
-//   expect(
-//     todos(stateBefore, action)
-//   ).toEqual(stateAfter);
-
-//   console.log("passed second toggle test");
-// }
-
-// testToggleTodo2();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // 
