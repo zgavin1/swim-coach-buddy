@@ -159,32 +159,12 @@
 	//   };
 	// };
 	
-	// Keys and values have the same name
-	// so ES6 object literal notation allows
-	// this syntax
-	
 	var setApp = combineReducers({
 	  sets: sets,
 	  visibilityFilter: visibilityFilter,
 	  stopWatch: stopWatch
 	});
 	
-	// const todoApp = (state = {}, action) => {
-	//   return {
-	//     todos: todos(
-	//       state.todos,
-	//       action
-	//     ),
-	//     visibilityFilter: visibilityFilter(
-	//       state.visibilityFilter,
-	//       action
-	//     ),
-	//     stopWatch: stopWatch(
-	//       state.stopWatch,
-	//       action
-	//   )
-	//   };
-	// };
 	var _React = React;
 	var Component = _React.Component;
 	var _ReactRedux = ReactRedux;
@@ -305,11 +285,6 @@
 	//
 	var moment = __webpack_require__(1);
 	
-	// 2395872
-	// hundreths = 72;
-	// 23958
-	// seconds = 23958 / 60 = 400
-	
 	var StopWatchDisplay = function StopWatchDisplay(_ref2) {
 	  var running = _ref2.running;
 	  var time = _ref2.time;
@@ -391,55 +366,6 @@
 	};
 	
 	var StopWatch = connect(mapStateToStopWatchProps, mapDispatchToStopWatchProps)(StopWatchDisplay);
-	
-	// const Link = ({
-	//   active,
-	//   children,
-	//   onClick
-	// }) => {
-	//   if (active) {
-	//     return <span> {children} </span>
-	//   }
-	
-	//   return (
-	//     <a href="#"
-	//       onClick={e => {
-	//         e.preventDefault();
-	//         onClick();
-	//       }}
-	//     >
-	//       {children}
-	//     </a>
-	//   );
-	// };
-	
-	// const mapStateToLinkProps = (
-	//   state,
-	//   ownProps
-	// ) => {
-	//   return {
-	//     active: ownProps.filter === state.visibilityFilter
-	//   };
-	// };
-	
-	// const mapDispatchToLinkProps = (
-	//   dispatch,
-	//   ownProps
-	// ) => {
-	//   return {
-	//     onClick: () => {
-	//       dispatch({
-	//         type: "SET_VISIBILITY_FILTER",
-	//         filter: ownProps.filter
-	//       });
-	//     }
-	//   };
-	// };
-	
-	// const FilterLink = connect(
-	//   mapStateToLinkProps,
-	//   mapDispatchToLinkProps
-	// )(Link);
 	
 	var Set = function Set(_ref3) {
 	  var onClick = _ref3.onClick;
@@ -617,43 +543,7 @@
 	  };
 	};
 	
-	// Connect function does literally everything in the
-	// class we already wrote "VisbleTodoList" if we pass
-	// in both mapping functions from above
-	
 	var VisibleSetList = connect(mapStateToSetListProps, mapDispatchToSetListProps)(SetList);
-	
-	// class VisibleTodoList extends Component {
-	//   componentDidMount() {
-	//     const { store } = this.context;
-	//     this.unsubscribe = store.subscribe(() =>
-	//       this.forceUpdate()
-	//     );
-	//   }
-	
-	//   componentWillUnmount() {
-	//     this.unsubscribe();
-	//   }
-	
-	//   render() {
-	//     const props = this.props;
-	//     const { store } = this.context;
-	//     const state = store.getState();
-	
-	//     return (
-	//       <TodoList
-	//         todos={
-	
-	//         }
-	//         onTodoClick={id =>
-	
-	//         } />
-	//     );
-	//   }
-	// }
-	// VisibleTodoList.contextTypes = {
-	//   store: React.PropTypes.object
-	// };
 	
 	var SetApp = function SetApp() {
 	  return React.createElement(

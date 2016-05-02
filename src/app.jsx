@@ -118,31 +118,12 @@ const { combineReducers } = Redux;
 //   };
 // };
 
-// Keys and values have the same name
-// so ES6 object literal notation allows
-// this syntax
 const setApp = combineReducers({
   sets,
   visibilityFilter,
   stopWatch
 });
 
-// const todoApp = (state = {}, action) => {
-//   return {
-//     todos: todos(
-//       state.todos,
-//       action
-//     ),
-//     visibilityFilter: visibilityFilter(
-//       state.visibilityFilter,
-//       action
-//     ),
-//     stopWatch: stopWatch(
-//       state.stopWatch,
-//       action
-  //   )
-//   };
-// };
 const { Component } = React;
 const { connect } = ReactRedux;
 
@@ -255,13 +236,6 @@ const Footer = () => (
 //
 var moment = require('moment');
 
-
-// 2395872
-// hundreths = 72;
-// 23958
-// seconds = 23958 / 60 = 400
-
-
 const StopWatchDisplay = ({
   running,
   time,
@@ -340,58 +314,6 @@ const StopWatch = connect(
   mapStateToStopWatchProps,
   mapDispatchToStopWatchProps
 )(StopWatchDisplay);
-
-
-// const Link = ({
-//   active,
-//   children,
-//   onClick
-// }) => {
-//   if (active) {
-//     return <span> {children} </span>
-//   }
-
-//   return (
-//     <a href="#"
-//       onClick={e => {
-//         e.preventDefault();
-//         onClick();
-//       }}
-//     >
-//       {children}
-//     </a>
-//   );
-// };
-
-// const mapStateToLinkProps = (
-//   state,
-//   ownProps
-// ) => {
-//   return {
-//     active: ownProps.filter === state.visibilityFilter
-//   };
-// };
-
-// const mapDispatchToLinkProps = (
-//   dispatch,
-//   ownProps
-// ) => {
-//   return {
-//     onClick: () => {
-//       dispatch({
-//         type: "SET_VISIBILITY_FILTER",
-//         filter: ownProps.filter
-//       });
-//     }
-//   };
-// };
-
-// const FilterLink = connect(
-//   mapStateToLinkProps,
-//   mapDispatchToLinkProps
-// )(Link);
-
-
 
 
 const Set = ({
@@ -554,51 +476,10 @@ const mapDispatchToSetListProps = (dispatch) => {
   };
 };
 
-// Connect function does literally everything in the
-// class we already wrote "VisbleTodoList" if we pass
-// in both mapping functions from above
-
 const VisibleSetList = connect(
   mapStateToSetListProps,
   mapDispatchToSetListProps
 )(SetList);
-
-
-
-// class VisibleTodoList extends Component {
-//   componentDidMount() {
-//     const { store } = this.context;
-//     this.unsubscribe = store.subscribe(() =>
-//       this.forceUpdate()
-//     );
-//   }
-
-//   componentWillUnmount() {
-//     this.unsubscribe();
-//   }
-
-
-//   render() {
-//     const props = this.props;
-//     const { store } = this.context;
-//     const state = store.getState();
-
-//     return (
-//       <TodoList
-//         todos={
-
-//         }
-//         onTodoClick={id =>
-          
-//         } />
-//     );
-//   }
-// }
-// VisibleTodoList.contextTypes = {
-//   store: React.PropTypes.object
-// };
-
-
 
 
 
