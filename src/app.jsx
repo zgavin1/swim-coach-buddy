@@ -1,10 +1,10 @@
-// // Todo App
-const todo = (
+// // Set App
+const set = (
   state,
   action
 ) => {
   switch (action.type) {
-    case 'ADD_TODO':
+    case 'ADD_SET':
       return {
         id: action.id,
         count: action.count,
@@ -12,7 +12,7 @@ const todo = (
         interval: action.interval,
         completed: false
       };
-    case 'TOGGLE_TODO':
+    case 'TOGGLE_SET':
       if (state.id !== action.id) {
         return state
       }
@@ -27,18 +27,18 @@ const todo = (
 };
 
 
-const todos = (
+const sets = (
   state = [],
   action
 ) => {
   switch (action.type) {
-    case 'ADD_TODO':
+    case 'ADD_SET':
       return [
         ...state,
-        todo(undefined, action)
+        set(undefined, action)
       ];
-    case 'TOGGLE_TODO':
-      return state.map(t => todo(t, action));
+    case 'TOGGLE_SET':
+      return state.map(s => set(s, action));
     default:
       return state;
   }
@@ -59,25 +59,39 @@ const visibilityFilter = (
 
 // Could include laps later.
 
+const defaultWatchState = {
+  running: false,
+  time: 0,
+  offset: 0
+}
+
 const stopWatch = (
-  state = {running: false, time: 0},
+  state = defaultWatchState,
   action
 ) => {
   switch (action.type) {
     case 'INCREMENT_STOPWATCH':
       return {
         ...state,
-        time: state.time+1
+        time: state.time + (action.time - state.offset),
+        offset: action.time
       }
-    case 'TOGGLE_STOPWATCH':
+    case 'START_STOPWATCH':
       return {
         ...state,
-        running: !state.running,
+        running: true,
+        offset: action.offset
+      };
+    case 'STOP_STOPWATCH':
+      return {
+        ...state,
+        running: false
       };
     case 'RESET_STOPWATCH':
       return {
         ...state,
-        time: 0
+        time: 0,
+        offset: 0
       };
     default:
       return state;
@@ -107,8 +121,8 @@ const { combineReducers } = Redux;
 // Keys and values have the same name
 // so ES6 object literal notation allows
 // this syntax
-const todoApp = combineReducers({
-  todos,
+const setApp = combineReducers({
+  sets,
   visibilityFilter,
   stopWatch
 });
@@ -239,30 +253,46 @@ const Footer = () => (
 // 
 // 
 //
+var moment = require('moment');
 
+
+// 2395872
+// hundreths = 72;
+// 23958
+// seconds = 23958 / 60 = 400
 
 
 const StopWatchDisplay = ({
   running,
   time,
-  onClick,
-  onRunning
+  offset,
+  start,
+  stop,
+  onRunning,
+  resetTime
 }) => {
   // let intervalId;
   if (running) {
-    setTimeout(onRunning, 100);
+    setTimeout(onRunning, 10);
   }
 
-  let button = 
+  let displayTime = moment(time).format("mm:ss.SS")
+
+  const startButton = 
     <button
-      onClick={onClick}>
-      { (running ? "STOP" : "START") }
+      onClick={running ? stop : start} >
+      {(running ? "STOP" : "START")}
     </button>;
+  const resetButton =
+    <button
+      onClick={resetTime} >
+      RESET
+    </button>
 
   return (
     <div>
-      <span> {time} </span>
-      { button }
+      <span> {displayTime} </span>
+      { startButton } { resetButton }
     </div>
   );
 };
@@ -272,7 +302,8 @@ const mapStateToStopWatchProps = (
 ) => {
   return {
     running: state.stopWatch.running,
-    time: state.stopWatch.time
+    time: state.stopWatch.time,
+    offset: state.stopWatch.offset
   }
 }
 
@@ -280,14 +311,26 @@ const mapDispatchToStopWatchProps = (
   dispatch
 ) => {
   return {
-    onClick: () => {
+    start: () => {
       dispatch({
-        type: "TOGGLE_STOPWATCH"
+        type: "START_STOPWATCH",
+        offset: Date.now()
+      })
+    },
+    stop: () => {
+      dispatch({
+        type: "STOP_STOPWATCH",
       })
     },
     onRunning: () => {
       dispatch({
-        type: "INCREMENT_STOPWATCH"
+        type: "INCREMENT_STOPWATCH",
+        time: Date.now()
+      });
+    },
+    resetTime: () => {
+      dispatch({
+        type: "RESET_STOPWATCH"
       })
     }
   };
@@ -351,7 +394,7 @@ const StopWatch = connect(
 
 
 
-const Todo = ({
+const Set = ({
   onClick,
   completed,
   count,
@@ -364,36 +407,36 @@ const Todo = ({
       onClick={onClick}
       style={{
         textDecoration: completed ? "line-through" : "none"
-      }}>
+      }} >
       {count} x {dist} @ {interval}
     </li>
   )
 }
 
-const TodoList = ({
-  todos,
-  onTodoClick
+const SetList = ({
+  sets,
+  onSetClick
 }) => (
   <ul>
-    {todos.reverse().map(todo =>
-      <Todo
-        key={todo.id}
-        {...todo}
-        onClick={() => onTodoClick(todo.id)} />
+    {sets.reverse().map(set =>
+      <Set
+        key={set.id}
+        {...set}
+        onClick={() => onSetClick(set.id)} />
     )}
   </ul>  
 )
 
-let nextTodoId = 0;
+let nextSetId = 0;
 
 // This is called abstraction the action creator
 // It is common Redux pattern, could be done 
 // in every single place where a larger function
 // or class dispatches an action.
-const addTodo = (count, dist, interval) => {
+const addSet = (count, dist, interval) => {
   return {
-    type: "ADD_TODO",
-    id: nextTodoId++,
+    type: "ADD_SET",
+    id: nextSetId++,
     count,
     dist,
     interval
@@ -401,7 +444,7 @@ const addTodo = (count, dist, interval) => {
 };
 
 // gets dispatch using ES6 syntax directly from props
-let AddTodo = ({ dispatch }) => {
+let AddSet = ({ dispatch }) => {
   let dist;
   let count;
   let minutes;
@@ -419,7 +462,7 @@ let AddTodo = ({ dispatch }) => {
           displayMinutes = "";
         }
         const displayInterval = minutes.value.slice(minutes.value.length - 2) + ":" + displaySeconds.slice(displaySeconds.length - 2);
-        dispatch(addTodo(count.value, dist.value, displayInterval));
+        dispatch(addSet(count.value, dist.value, displayInterval));
         document.getElementById('set-form').reset();
       }}
       id="set-form"
@@ -453,14 +496,14 @@ let AddTodo = ({ dispatch }) => {
         min="0"
         max="59"
         defaultValue="00" />
-      <input type="submit" value="Add Todo" />
+      <input type="submit" value="Add Set" />
     </form>
   );
 };
 
 // Connect call without any argument will 
 // not subscribe to the store, but will provide dispatch
-const AddTodos = connect()(AddTodo)
+const AddSets = connect()(AddSet)
 
 // AddTodo = connect(
 //   state => {
@@ -471,40 +514,40 @@ const AddTodos = connect()(AddTodo)
 //   }
 // )(addTodo);
 
-const getVisibleTodos = (
-  todos,
+const getVisibleSets = (
+  sets,
   filter
 ) => {
   switch (filter) {
     case "SHOW":
-      return todos;
+      return sets;
     case "SHOW_COMPLETED":
-      return todos.filter(
-        t => t.completed
+      return sets.filter(
+        s => s.completed
       );
     case "SHOW_ACTIVE":
-      return todos.filter(
-        t => !t.completed
+      return sets.filter(
+        s => !s.completed
       );
     default:
-      return todos;
+      return sets;
   }
 }
 
-const MapStateToTodoListProps = (state) => {
+const mapStateToSetListProps = (state) => {
   return {
-    todos: getVisibleTodos(
-      state.todos,
+    sets: getVisibleSets(
+      state.sets,
       state.visibilityFilter
     )
   };
 };
 
-const mapDispatchToTodoListProps = (dispatch) => {
+const mapDispatchToSetListProps = (dispatch) => {
   return {
-    onTodoClick: (id) => {
+    onSetClick: (id) => {
       dispatch({
-        type: "TOGGLE_TODO",
+        type: "TOGGLE_SET",
         id
       })
     }
@@ -515,10 +558,10 @@ const mapDispatchToTodoListProps = (dispatch) => {
 // class we already wrote "VisbleTodoList" if we pass
 // in both mapping functions from above
 
-const VisibleTodoList = connect(
-  MapStateToTodoListProps,
-  mapDispatchToTodoListProps
-)(TodoList);
+const VisibleSetList = connect(
+  mapStateToSetListProps,
+  mapDispatchToSetListProps
+)(SetList);
 
 
 
@@ -559,10 +602,10 @@ const VisibleTodoList = connect(
 
 
 
-const TodoApp = () => (
+const SetApp = () => (
   <div>
-    <AddTodos />
-    <VisibleTodoList />
+    <AddSets />
+    <VisibleSetList />
     <Footer />
     <StopWatch />
   </div>
@@ -592,8 +635,8 @@ const { Provider } = ReactRedux;
 const { createStore } = Redux;
 
 ReactDOM.render(
-  <Provider store={createStore(todoApp)}>
-    <TodoApp />
+  <Provider store={createStore(setApp)}>
+    <SetApp />
   </Provider>,
   document.getElementById('root')
 );
