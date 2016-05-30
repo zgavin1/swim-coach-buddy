@@ -1,4 +1,6 @@
 // // Set App
+import reducer from './reducers/rootReducer';
+
 const set = (
   state,
   action
@@ -351,7 +353,7 @@ const SetList = ({
 
 let nextSetId = 0;
 
-// This is called abstraction the action creator
+// This is called abstracting the action creator
 // It is common Redux pattern, could be done 
 // in every single place where a larger function
 // or class dispatches an action.
@@ -441,7 +443,7 @@ const getVisibleSets = (
   filter
 ) => {
   switch (filter) {
-    case "SHOW":
+    case "SHOW_ALL":
       return sets;
     case "SHOW_COMPLETED":
       return sets.filter(
@@ -516,7 +518,7 @@ const { Provider } = ReactRedux;
 const { createStore } = Redux;
 
 ReactDOM.render(
-  <Provider store={createStore(setApp)}>
+  <Provider store={createStore(rootReducer)}>
     <SetApp />
   </Provider>,
   document.getElementById('root')
