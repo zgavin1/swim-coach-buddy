@@ -1,23 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Filter from './../components/filter';
-import C from './../constants';
+import Filter from './filter';
 
 export default () => (
   <p>
     Show:
     {"  "}
-    <Filter filter={C.SHOW_ALL} >
+    <FilterLink filter="SHOW_ALL" >
       All
-    </Filter>
+    </FilterLink>
     {"  "}
-    <Filter filter={C.SHOW_DEPOSITS} >
-      Deposits
-    </Filter>
+    <FilterLink filter="SHOW_ACTIVE" >
+      Active
+    </FilterLink>
     {"  "}
-    <Filter filter={C.SHOW_WITHDRAWALS} >
-      Withdrawals
-    </Filter>
+    <FilterLink filter="SHOW_COMPLETED" >
+      Completed
+    </FilterLink>
   </p>
 )

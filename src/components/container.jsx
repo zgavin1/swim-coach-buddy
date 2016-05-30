@@ -1,8 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import Footer from './footer';
+import StopWatch from './stopwatch';
+import AddSets from './addsets';
+import SetList from './setlist';
 
-const myApp = () => {
+const MyApp = () => {
    return (
     <div className="ui container center aligned">
       <div className="ui container center aligned">
@@ -10,9 +12,12 @@ const myApp = () => {
            Swim Coach Buddy
         </h1>
       </div>
+      <AddSets />
+      <SetList />
+      <StopWatch />
       <Footer />
     </div>
    );
 };
 
-export default connect()(myApp);
+export default MyApp;

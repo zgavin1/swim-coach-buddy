@@ -118,7 +118,8 @@ const stopWatch = (
 //   };
 // };
 
-const setApp = combineReducers({
+
+export default combineReducers({
   sets,
   visibilityFilter,
   stopWatch

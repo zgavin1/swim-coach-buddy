@@ -39,9 +39,12 @@ const mapDispatchToLinkProps = (
 ) => {
    return {
       onClick: () => {
-         dispatch(actions.setFilter(ownProps.filter))
+         // dispatch(actions.setFilter(ownProps.filter))
       }
    };
 };
 
-export default connect(mapStateToLinkProps, mapDispatchToLinkProps)(Filter);
+export default connect(
+   mapStateToLinkProps,
+   mapDispatchToLinkProps
+)(Filter);

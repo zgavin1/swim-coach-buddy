@@ -1,4 +1,4 @@
-module.exports = {
+  module.exports = {
   context: __dirname,
   entry: "./src/app.jsx",
   output: {

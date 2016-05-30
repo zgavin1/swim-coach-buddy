@@ -1,63 +1,79 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const SetList = ({
-  sets,
-  onSetClick
-}) => (
-  <ul>
-    {sets.reverse().map(set =>
-      <Set
-        key={set.id}
-        {...set}
-        onClick={() => onSetClick(set.id)} />
-    )}
-  </ul>  
-)
+// this will become an "action"
 
-const getVisibleSets = (
-  sets,
-  filter
-) => {
-  switch (filter) {
-    case "SHOW_ALL":
-      return sets;
-    case "SHOW_COMPLETED":
-      return sets.filter(
-        s => s.completed
-      );
-    case "SHOW_ACTIVE":
-      return sets.filter(
-        s => !s.completed
-      );
-    default:
-      return sets;
-  }
-}
-
-const mapStateToSetListProps = (state) => {
+let nextSetId = 0;
+const addSet = (count, dist, interval) => {
   return {
-    sets: getVisibleSets(
-      state.sets,
-      state.visibilityFilter
-    )
+    type: "ADD_SET",
+    id: nextSetId++,
+    count,
+    dist,
+    interval
   };
 };
 
-const mapDispatchToSetListProps = (dispatch) => {
-  return {
-    onSetClick: (id) => {
-      dispatch({
-        type: "TOGGLE_SET",
-        id
-      })
-    }
-  };
+// gets dispatch using ES6 syntax directly from props
+let AddSet = ({ dispatch }) => {
+  let dist;
+  let count;
+  let minutes;
+  let seconds;
+  
+  return (
+    <form onSubmit={(e) => {
+        e.preventDefault(); 
+        if (dist.value === "" || count.value === "" || (minutes.value === "0" && seconds.value === "00")) {
+          return;
+        }
+        const displaySeconds = parseInt(seconds.value) < 10 ? "0" + seconds.value : seconds.value;
+        let displayMinutes = parseInt(minutes.value);
+        if (displayMinutes === 0) {
+          displayMinutes = "";
+        }
+        const displayInterval = minutes.value.slice(minutes.value.length - 2) + ":" + displaySeconds.slice(displaySeconds.length - 2);
+        dispatch(addSet(count.value, dist.value, displayInterval));
+        document.getElementById('set-form').reset();
+      }}
+      id="set-form"
+    >
+      <h3>Reps</h3>
+      <input ref={node=> {
+          count=node;
+        }}
+        type="number"
+        min="1"
+        max="100" />
+      <h3>Distance</h3>
+      <input ref={node=> {
+          dist = node;
+         }}
+         type="number"
+         min="25"
+         max="1000"
+         step="25" />
+      <h3>Interval</h3>
+      <input ref={node=> {
+          minutes=node;
+        }}
+        type="number"
+        min="0"
+        defaultValue="0" />:
+      <input ref={node=> {
+          seconds=node;
+        }}
+        type="number"
+        min="0"
+        max="59"
+        defaultValue="00" />
+      <input type="submit" value="Add Set" />
+    </form>
+  );
 };
 
-const VisibleSetList = connect(
-  mapStateToSetListProps,
-  mapDispatchToSetListProps
-)(SetList);
+// Connect call without any argument will 
+// not subscribe to the store, but will provide dispatch
+const AddSets = connect()(AddSet)
 
-export default VisibleSetList;
+export default AddSets;

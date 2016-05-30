@@ -18,8 +18,10 @@
     "babel-preset-stage-2": "^6.5.0",
     "moment": "^2.13.0",
     "momentjs": "^1.1.6",
-    "react": "^0.14.7",
+    "react": "^0.14.8",
     "react-dom": "^0.14.7",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2",
     "webpack": "^1.12.14"
   },
   "devDependencies": {
