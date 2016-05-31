@@ -7,16 +7,16 @@ export default () => (
   <p>
     Show:
     {"  "}
-    <FilterLink filter="SHOW_ALL" >
+    <Filter filter="SHOW_ALL" >
       All
-    </FilterLink>
+    </Filter>
     {"  "}
-    <FilterLink filter="SHOW_ACTIVE" >
+    <Filter filter="SHOW_ACTIVE" >
       Active
-    </FilterLink>
+    </Filter>
     {"  "}
-    <FilterLink filter="SHOW_COMPLETED" >
+    <Filter filter="SHOW_COMPLETED" >
       Completed
-    </FilterLink>
+    </Filter>
   </p>
 )

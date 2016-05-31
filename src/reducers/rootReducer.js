@@ -1,4 +1,4 @@
-const { combineReducers } = Redux;
+import { combineReducers } from 'redux';
 // // Set App
 const set = (
   state,
