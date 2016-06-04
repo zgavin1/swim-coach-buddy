@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Filter from './filter';
 
 export default () => (
-  <p>
+  <div className="ui container center aligned">
     Show:
     {"  "}
     <Filter filter="SHOW_ALL" >
@@ -18,5 +18,5 @@ export default () => (
     <Filter filter="SHOW_COMPLETED" >
       Completed
     </Filter>
-  </p>
+  </div>
 )

@@ -3,18 +3,18 @@ import { connect } from 'react-redux';
 
 const Set = ({
   onClick,
+  removeSet,
   completed,
   count,
   dist,
   interval
 }) => {
   return (
-    <li
-      onClick={onClick}
-      style={{
+    <li style={{
         textDecoration: completed ? "line-through" : "none"
       }} >
-      {count} x {dist} @ {interval}
+      <span onClick={onClick}>{count} x {dist} @ {interval}</span>
+      <button onClick={removeSet}>Remove</button>
     </li>
   )
 }

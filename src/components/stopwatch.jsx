@@ -31,7 +31,8 @@ const StopWatchDisplay = ({
 
   return (
     <div>
-      <span> {displayTime} </span>
+      <span className="time-display"> {displayTime} </span>
+      <br />
       { startButton } { resetButton }
     </div>
   );

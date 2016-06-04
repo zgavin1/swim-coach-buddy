@@ -2,16 +2,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Set from './set';
 
+
+// TODO: Figure out how/why
+// the sets are coming in weird order
+// order seems to be pyramidal(?)
 const SetList = ({
   sets,
-  onSetClick
+  onSetClick,
+  onSetClose
 }) => (
   <ul>
     {sets.reverse().map(set =>
       <Set
         key={set.id}
         {...set}
-        onClick={() => onSetClick(set.id)} />
+        onClick={() => onSetClick(set.id)}
+        removeSet={() => onSetClose(set.id)} />
     )}
   </ul>  
 )
@@ -50,6 +56,12 @@ const mapDispatchToSetListProps = (dispatch) => {
     onSetClick: (id) => {
       dispatch({
         type: "TOGGLE_SET",
+        id
+      })
+    },
+    onSetClose: (id) => {
+      dispatch({
+        type: "REMOVE_SET",
         id
       })
     }

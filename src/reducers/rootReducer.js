@@ -13,6 +13,12 @@ const set = (
         interval: action.interval,
         completed: false
       };
+    // case 'REMOVE_SET':
+    //   if (state.id !== action.id) {
+    //     return;
+    //   }
+
+    //   return state;
     case 'TOGGLE_SET':
       if (state.id !== action.id) {
         return state
@@ -38,6 +44,8 @@ const sets = (
         ...state,
         set(undefined, action)
       ];
+    case 'REMOVE_SET':
+      return state.filter(s => s.id !== action.id);
     case 'TOGGLE_SET':
       return state.map(s => set(s, action));
     default:
