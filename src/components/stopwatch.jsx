@@ -22,11 +22,13 @@ const StopWatchDisplay = ({
 
   const startButton = 
     <button
+      className="ui button"
       onClick={running ? stop : start} >
       {(running ? "STOP" : "START")}
     </button>;
   const resetButton =
     <button
+      className="ui button"
       onClick={resetTime} >
       RESET
     </button>

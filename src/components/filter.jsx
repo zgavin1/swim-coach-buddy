@@ -13,6 +13,7 @@ const Filter = ({
 
   return (
     <button
+      className="ui button"
       onClick={e => {
         e.preventDefault();
         onClick();

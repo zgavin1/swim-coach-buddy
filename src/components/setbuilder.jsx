@@ -39,37 +39,64 @@ let AddSet = ({ dispatch }) => {
         document.getElementById('set-form').reset();
       }}
       id="set-form"
-    >
-      <h3>Reps</h3>
-      <input ref={node=> {
-          count=node;
-        }}
-        type="number"
-        min="1"
-        max="100" />
-      <h3>Distance</h3>
-      <input ref={node=> {
-          dist = node;
-         }}
-         type="number"
-         min="25"
-         max="1000"
-         step="25" />
-      <h3>Interval</h3>
-      <input ref={node=> {
-          minutes=node;
-        }}
-        type="number"
-        min="0"
-        defaultValue="0" />:
-      <input ref={node=> {
-          seconds=node;
-        }}
-        type="number"
-        min="0"
-        max="59"
-        defaultValue="00" />
-      <input type="submit" value="Add Set" />
+      className="ui form" >
+      <h4 className="ui dividing header">build your workout</h4>
+
+      <div className="field">
+        <label>describe your set</label>
+        <div className="two fields">
+          <div className="field">
+            <input 
+              ref={node=> {
+                count=node;
+              }}
+              type="number"
+              min="1"
+              max="100"
+              placeholder="reps..." />
+          </div> 
+          <p>X</p>
+          <div className="field">
+            <input 
+              ref={node=> {
+                dist=node;
+              }}
+              type="number"
+              min="0"
+              max="1000"
+              step="25"
+              placeholder="distance..." />
+          </div>
+        </div>
+      </div>
+      <div className="field">
+        <label>interval</label>
+        <div className="two fields">
+          <div className="field">
+            <input 
+            ref={node=> {
+              minutes=node;
+            }}
+            type="number"
+            min="0"
+            defaultValue="0"
+            placeholder="0" />
+          </div>
+          <p>:</p>
+          <div className="field">
+            <input ref={node=> {
+                seconds=node;
+              }}
+              type="number"
+              min="0"
+              max="59"
+              placeholder="00"
+              defaultValue="00" />
+          </div>
+        </div>
+      </div>
+      <br/>
+      <button className="ui button" type="submit">Add Set</button>
     </form>
   );
 };
