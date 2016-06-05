@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import Set from './set';
+import actions from './../actions/setActions';
 
 
 // TODO: Figure out how/why
@@ -54,16 +56,10 @@ const mapStateToSetListProps = (state) => {
 const mapDispatchToSetListProps = (dispatch) => {
   return {
     onSetClick: (id) => {
-      dispatch({
-        type: "TOGGLE_SET",
-        id
-      })
+      dispatch(actions.toggleSet(id))
     },
     onSetClose: (id) => {
-      dispatch({
-        type: "REMOVE_SET",
-        id
-      })
+      dispatch(actions.removeSet(id))
     }
   };
 };

@@ -1,1 +1,3 @@
-https://jsfiddle.net/zgavin1/brtjtshr/27/
+##TODO:
+
+Make action creators. Make constants

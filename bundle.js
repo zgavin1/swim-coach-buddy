@@ -21251,6 +21251,12 @@
 	        interval: action.interval,
 	        completed: false
 	      };
+	    // case 'REMOVE_SET':
+	    //   if (state.id !== action.id) {
+	    //     return;
+	    //   }
+	
+	    //   return state;
 	    case 'TOGGLE_SET':
 	      if (state.id !== action.id) {
 	        return state;
@@ -21271,6 +21277,10 @@
 	  switch (action.type) {
 	    case 'ADD_SET':
 	      return [].concat(_toConsumableArray(state), [set(undefined, action)]);
+	    case 'REMOVE_SET':
+	      return state.filter(function (s) {
+	        return s.id !== action.id;
+	      });
 	    case 'TOGGLE_SET':
 	      return state.map(function (s) {
 	        return set(s, action);
@@ -21370,26 +21380,29 @@
 	
 	var _footer2 = _interopRequireDefault(_footer);
 	
-	var _stopwatch = __webpack_require__(185);
+	var _stopwatchcontainer = __webpack_require__(294);
 	
-	var _stopwatch2 = _interopRequireDefault(_stopwatch);
+	var _stopwatchcontainer2 = _interopRequireDefault(_stopwatchcontainer);
 	
-	var _addsets = __webpack_require__(289);
+	var _setbuildercontainer = __webpack_require__(293);
 	
-	var _addsets2 = _interopRequireDefault(_addsets);
+	var _setbuildercontainer2 = _interopRequireDefault(_setbuildercontainer);
 	
-	var _setlist = __webpack_require__(290);
+	var _setlistcontainer = __webpack_require__(295);
 	
-	var _setlist2 = _interopRequireDefault(_setlist);
+	var _setlistcontainer2 = _interopRequireDefault(_setlistcontainer);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// import AddSets from './setbuilder';
+	
 	
 	var MyApp = function MyApp() {
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'ui container center aligned' },
 	    _react2.default.createElement(
-	      'div',
+	      'span',
 	      { className: 'ui container center aligned' },
 	      _react2.default.createElement(
 	        'h1',
@@ -21397,12 +21410,18 @@
 	        'Swim Coach Buddy'
 	      )
 	    ),
-	    _react2.default.createElement(_addsets2.default, null),
-	    _react2.default.createElement(_setlist2.default, null),
-	    _react2.default.createElement(_stopwatch2.default, null),
+	    _react2.default.createElement(
+	      'main',
+	      { className: 'ui container center aligned group' },
+	      _react2.default.createElement(_setbuildercontainer2.default, null),
+	      _react2.default.createElement(_setlistcontainer2.default, null),
+	      _react2.default.createElement(_stopwatchcontainer2.default, null)
+	    ),
 	    _react2.default.createElement(_footer2.default, null)
 	  );
 	};
+	// import SetList from './setlist';
+	
 	
 	exports.default = MyApp;
 
@@ -21430,8 +21449,8 @@
 	
 	exports.default = function () {
 	  return _react2.default.createElement(
-	    'p',
-	    null,
+	    'div',
+	    { className: 'ui container center aligned' },
 	    'Show:',
 	    "  ",
 	    _react2.default.createElement(
@@ -21461,7 +21480,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	   value: true
 	});
 	
 	var _react = __webpack_require__(1);
@@ -21470,53 +21489,51 @@
 	
 	var _reactRedux = __webpack_require__(158);
 	
+	var _filterActions = __webpack_require__(296);
+	
+	var _filterActions2 = _interopRequireDefault(_filterActions);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// import C from './../constants';
-	// import actions from './../actions/actionCreators';
-	
 	var Filter = function Filter(_ref) {
-	  var active = _ref.active;
-	  var children = _ref.children;
-	  var _onClick = _ref.onClick;
+	   var active = _ref.active;
+	   var children = _ref.children;
+	   var _onClick = _ref.onClick;
 	
-	  if (active) {
-	    return _react2.default.createElement(
-	      'span',
-	      null,
-	      ' ',
-	      children,
-	      ' '
-	    );
-	  }
+	   if (active) {
+	      return _react2.default.createElement(
+	         'span',
+	         null,
+	         ' ',
+	         children,
+	         ' '
+	      );
+	   }
 	
-	  return _react2.default.createElement(
-	    'button',
-	    {
-	      onClick: function onClick(e) {
-	        e.preventDefault();
-	        _onClick();
-	      }
-	    },
-	    children
-	  );
+	   return _react2.default.createElement(
+	      'button',
+	      {
+	         onClick: function onClick(e) {
+	            e.preventDefault();
+	            _onClick();
+	         }
+	      },
+	      children
+	   );
 	};
 	
 	var mapStateToLinkProps = function mapStateToLinkProps(state, ownProps) {
-	  return {
-	    active: ownProps.filter === state.filter
-	  };
+	   return {
+	      active: ownProps.filter === state.filter
+	   };
 	};
 	
 	var mapDispatchToLinkProps = function mapDispatchToLinkProps(dispatch, ownProps) {
-	  return {
-	    onClick: function onClick() {
-	      dispatch({
-	        type: "SET_VISIBILITY_FILTER",
-	        filter: ownProps.filter
-	      });
-	    }
-	  };
+	   return {
+	      onClick: function onClick() {
+	         dispatch(_filterActions2.default.setVisibilityFilter(ownProps.filter));
+	      }
+	   };
 	};
 	
 	exports.default = (0, _reactRedux.connect)(mapStateToLinkProps, mapDispatchToLinkProps)(Filter);
@@ -21540,6 +21557,10 @@
 	var _moment = __webpack_require__(186);
 	
 	var _moment2 = _interopRequireDefault(_moment);
+	
+	var _stopwatchActions = __webpack_require__(299);
+	
+	var _stopwatchActions2 = _interopRequireDefault(_stopwatchActions);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -21577,11 +21598,12 @@
 	    null,
 	    _react2.default.createElement(
 	      'span',
-	      null,
+	      { className: 'time-display' },
 	      ' ',
 	      displayTime,
 	      ' '
 	    ),
+	    _react2.default.createElement('br', null),
 	    startButton,
 	    ' ',
 	    resetButton
@@ -21599,26 +21621,16 @@
 	var mapDispatchToStopWatchProps = function mapDispatchToStopWatchProps(dispatch) {
 	  return {
 	    start: function start() {
-	      dispatch({
-	        type: "START_STOPWATCH",
-	        offset: Date.now()
-	      });
+	      dispatch(_stopwatchActions2.default.startStopwatch());
 	    },
 	    stop: function stop() {
-	      dispatch({
-	        type: "STOP_STOPWATCH"
-	      });
+	      dispatch(_stopwatchActions2.default.stopStopwatch());
 	    },
 	    onRunning: function onRunning() {
-	      dispatch({
-	        type: "INCREMENT_STOPWATCH",
-	        time: Date.now()
-	      });
+	      dispatch(_stopwatchActions2.default.incrementTime());
 	    },
 	    resetTime: function resetTime() {
-	      dispatch({
-	        type: "RESET_STOPWATCH"
-	      });
+	      dispatch(_stopwatchActions2.default.resetStopwatch());
 	    }
 	  };
 	};
@@ -35421,7 +35433,98 @@
 	}));
 
 /***/ },
-/* 289 */
+/* 289 */,
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(158);
+	
+	var _set = __webpack_require__(291);
+	
+	var _set2 = _interopRequireDefault(_set);
+	
+	var _setActions = __webpack_require__(298);
+	
+	var _setActions2 = _interopRequireDefault(_setActions);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// TODO: Figure out how/why
+	// the sets are coming in weird order
+	// order seems to be pyramidal(?)
+	var SetList = function SetList(_ref) {
+	  var sets = _ref.sets;
+	  var onSetClick = _ref.onSetClick;
+	  var onSetClose = _ref.onSetClose;
+	  return _react2.default.createElement(
+	    'ul',
+	    null,
+	    sets.reverse().map(function (set) {
+	      return _react2.default.createElement(_set2.default, _extends({
+	        key: set.id
+	      }, set, {
+	        onClick: function onClick() {
+	          return onSetClick(set.id);
+	        },
+	        removeSet: function removeSet() {
+	          return onSetClose(set.id);
+	        } }));
+	    })
+	  );
+	};
+	
+	var getVisibleSets = function getVisibleSets(sets, filter) {
+	  switch (filter) {
+	    case "SHOW_ALL":
+	      return sets;
+	    case "SHOW_COMPLETED":
+	      return sets.filter(function (s) {
+	        return s.completed;
+	      });
+	    case "SHOW_ACTIVE":
+	      return sets.filter(function (s) {
+	        return !s.completed;
+	      });
+	    default:
+	      return sets;
+	  }
+	};
+	
+	var mapStateToSetListProps = function mapStateToSetListProps(state) {
+	  return {
+	    sets: getVisibleSets(state.sets, state.visibilityFilter)
+	  };
+	};
+	
+	var mapDispatchToSetListProps = function mapDispatchToSetListProps(dispatch) {
+	  return {
+	    onSetClick: function onSetClick(id) {
+	      dispatch(_setActions2.default.toggleSet(id));
+	    },
+	    onSetClose: function onSetClose(id) {
+	      dispatch(_setActions2.default.removeSet(id));
+	    }
+	  };
+	};
+	
+	var VisibleSetList = (0, _reactRedux.connect)(mapStateToSetListProps, mapDispatchToSetListProps)(SetList);
+	
+	exports.default = VisibleSetList;
+
+/***/ },
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35438,18 +35541,72 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	var Set = function Set(_ref) {
+	  var onClick = _ref.onClick;
+	  var removeSet = _ref.removeSet;
+	  var completed = _ref.completed;
+	  var count = _ref.count;
+	  var dist = _ref.dist;
+	  var interval = _ref.interval;
+	
+	  return _react2.default.createElement(
+	    'li',
+	    { style: {
+	        textDecoration: completed ? "line-through" : "none"
+	      } },
+	    _react2.default.createElement(
+	      'span',
+	      { onClick: onClick },
+	      count,
+	      ' x ',
+	      dist,
+	      ' @ ',
+	      interval
+	    ),
+	    _react2.default.createElement(
+	      'button',
+	      { onClick: removeSet },
+	      'Remove'
+	    )
+	  );
+	};
+	
+	exports.default = Set;
+
+/***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(158);
+	
+	var _setActions = __webpack_require__(298);
+	
+	var _setActions2 = _interopRequireDefault(_setActions);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	// this will become an "action"
 	
-	var nextSetId = 0;
-	var addSet = function addSet(count, dist, interval) {
-	  return {
-	    type: "ADD_SET",
-	    id: nextSetId++,
-	    count: count,
-	    dist: dist,
-	    interval: interval
-	  };
-	};
+	// let nextSetId = 0;
+	// const addSet = (count, dist, interval) => {
+	//   return {
+	//     type: "ADD_SET",
+	//     id: nextSetId++,
+	//     count,
+	//     dist,
+	//     interval
+	//   };
+	// };
 	
 	// gets dispatch using ES6 syntax directly from props
 	var AddSet = function AddSet(_ref) {
@@ -35473,7 +35630,7 @@
 	          displayMinutes = "";
 	        }
 	        var displayInterval = minutes.value.slice(minutes.value.length - 2) + ":" + displaySeconds.slice(displaySeconds.length - 2);
-	        dispatch(addSet(count.value, dist.value, displayInterval));
+	        dispatch(_setActions2.default.addSet(count.value, dist.value, displayInterval));
 	        document.getElementById('set-form').reset();
 	      },
 	      id: 'set-form'
@@ -35531,125 +35688,229 @@
 	exports.default = AddSets;
 
 /***/ },
-/* 290 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	   value: true
 	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactRedux = __webpack_require__(158);
+	var _setbuilder = __webpack_require__(292);
 	
-	var _set = __webpack_require__(291);
-	
-	var _set2 = _interopRequireDefault(_set);
+	var _setbuilder2 = _interopRequireDefault(_setbuilder);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var SetList = function SetList(_ref) {
-	  var sets = _ref.sets;
-	  var onSetClick = _ref.onSetClick;
-	  return _react2.default.createElement(
-	    'ul',
-	    null,
-	    sets.reverse().map(function (set) {
-	      return _react2.default.createElement(_set2.default, _extends({
-	        key: set.id
-	      }, set, {
-	        onClick: function onClick() {
-	          return onSetClick(set.id);
-	        } }));
-	    })
-	  );
+	exports.default = function () {
+	   return _react2.default.createElement(
+	      'div',
+	      { className: 'container third-width' },
+	      _react2.default.createElement(_setbuilder2.default, null)
+	   );
 	};
-	
-	var getVisibleSets = function getVisibleSets(sets, filter) {
-	  switch (filter) {
-	    case "SHOW_ALL":
-	      return sets;
-	    case "SHOW_COMPLETED":
-	      return sets.filter(function (s) {
-	        return s.completed;
-	      });
-	    case "SHOW_ACTIVE":
-	      return sets.filter(function (s) {
-	        return !s.completed;
-	      });
-	    default:
-	      return sets;
-	  }
-	};
-	
-	var mapStateToSetListProps = function mapStateToSetListProps(state) {
-	  return {
-	    sets: getVisibleSets(state.sets, state.visibilityFilter)
-	  };
-	};
-	
-	var mapDispatchToSetListProps = function mapDispatchToSetListProps(dispatch) {
-	  return {
-	    onSetClick: function onSetClick(id) {
-	      dispatch({
-	        type: "TOGGLE_SET",
-	        id: id
-	      });
-	    }
-	  };
-	};
-	
-	var VisibleSetList = (0, _reactRedux.connect)(mapStateToSetListProps, mapDispatchToSetListProps)(SetList);
-	
-	exports.default = VisibleSetList;
 
 /***/ },
-/* 291 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	   value: true
 	});
 	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactRedux = __webpack_require__(158);
+	var _stopwatch = __webpack_require__(185);
+	
+	var _stopwatch2 = _interopRequireDefault(_stopwatch);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Set = function Set(_ref) {
-	  var onClick = _ref.onClick;
-	  var completed = _ref.completed;
-	  var count = _ref.count;
-	  var dist = _ref.dist;
-	  var interval = _ref.interval;
-	
-	  return _react2.default.createElement(
-	    'li',
-	    {
-	      onClick: onClick,
-	      style: {
-	        textDecoration: completed ? "line-through" : "none"
-	      } },
-	    count,
-	    ' x ',
-	    dist,
-	    ' @ ',
-	    interval
-	  );
+	exports.default = function () {
+	   return _react2.default.createElement(
+	      'div',
+	      { className: 'container third-width' },
+	      _react2.default.createElement(_stopwatch2.default, null)
+	   );
 	};
+
+/***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 	
-	exports.default = Set;
+	Object.defineProperty(exports, "__esModule", {
+	   value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _setlist = __webpack_require__(290);
+	
+	var _setlist2 = _interopRequireDefault(_setlist);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function () {
+	   return _react2.default.createElement(
+	      'div',
+	      { className: 'container third-width' },
+	      _react2.default.createElement(_setlist2.default, null)
+	   );
+	};
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	   value: true
+	});
+	
+	var _constants = __webpack_require__(297);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+	   setVisibilityFilter: function setVisibilityFilter(filter) {
+	      return {
+	         type: _constants2.default.SET_VISIBILITY_FILTER,
+	         filter: filter
+	      };
+	   }
+	};
+
+/***/ },
+/* 297 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	   value: true
+	});
+	exports.default = {
+	   // SETS
+	   TOGGLE_SET: "TOGGLE_SET",
+	   ADD_SET: "ADD_SET",
+	   REMOVE_SET: "REMOVE_SET",
+	
+	   // FILTER
+	   SET_VISIBILITY_FILTER: "SET_VISIBILITY_FILTER",
+	   SHOW_ALL: "SHOW_ALL",
+	   SHOW_ACTIVE: "SHOW_ACTIVE",
+	   SHOW_COMPLETED: "SHOW_COMPLETED",
+	
+	   // STOPWATCH
+	   START_STOPWATCH: "START_STOPWATCH",
+	   STOP_STOPWATCH: "STOP_STOPWATCH",
+	   INCREMENT_STOPWATCH: "INCREMENT_STOPWATCH",
+	   RESET_STOPWATCH: "RESET_STOPWATCH"
+	};
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	   value: true
+	});
+	
+	var _constants = __webpack_require__(297);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var nextSetId = 0;
+	
+	exports.default = {
+	   addSet: function addSet(count, dist, interval) {
+	      return {
+	         type: _constants2.default.ADD_SET,
+	         id: nextSetId++,
+	         count: count,
+	         dist: dist,
+	         interval: interval
+	      };
+	   },
+	
+	   removeSet: function removeSet(id) {
+	      return {
+	         type: _constants2.default.REMOVE_SET,
+	         id: id
+	      };
+	   },
+	
+	   toggleSet: function toggleSet(id) {
+	      return {
+	         type: _constants2.default.TOGGLE_SET,
+	         id: id
+	      };
+	   }
+	};
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	   value: true
+	});
+	
+	var _constants = __webpack_require__(297);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+	   startStopwatch: function startStopwatch() {
+	      return {
+	         offset: Date.now(),
+	         type: _constants2.default.START_STOPWATCH
+	      };
+	   },
+	
+	   stopStopwatch: function stopStopwatch() {
+	      return {
+	         type: _constants2.default.STOP_STOPWATCH
+	      };
+	   },
+	
+	   incrementTime: function incrementTime() {
+	      return {
+	         type: _constants2.default.INCREMENT_STOPWATCH,
+	         time: Date.now()
+	      };
+	   },
+	
+	   resetStopwatch: function resetStopwatch() {
+	      return {
+	         type: "RESET_STOPWATCH"
+	      };
+	   }
+	};
 
 /***/ }
 /******/ ]);

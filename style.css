@@ -1,0 +1,18 @@
+.third-width {
+   width: 33%;
+   float: left;
+}
+
+.group:after {
+   clear: both;
+   display: block;
+   content: " ";
+}
+
+
+.time-display {
+   font-size: 30px;
+   background-color: black;
+   color: green;
+}
+

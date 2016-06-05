@@ -1,7 +1,10 @@
+import C from './../constants';
 
-
-
-export (filter) => {
-  type: "SET_VISIBILITY_FILTER",
-  filter: filter
+export default {
+   setVisibilityFilter: (filter) => {
+         return {
+            type: C.SET_VISIBILITY_FILTER,
+            filter: filter
+         }
+      }
 }

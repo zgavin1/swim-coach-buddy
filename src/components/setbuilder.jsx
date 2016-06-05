@@ -1,18 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import actions from './../actions/setActions';
+
 // this will become an "action"
 
-let nextSetId = 0;
-const addSet = (count, dist, interval) => {
-  return {
-    type: "ADD_SET",
-    id: nextSetId++,
-    count,
-    dist,
-    interval
-  };
-};
+// let nextSetId = 0;
+// const addSet = (count, dist, interval) => {
+//   return {
+//     type: "ADD_SET",
+//     id: nextSetId++,
+//     count,
+//     dist,
+//     interval
+//   };
+// };
 
 // gets dispatch using ES6 syntax directly from props
 let AddSet = ({ dispatch }) => {
@@ -33,7 +35,7 @@ let AddSet = ({ dispatch }) => {
           displayMinutes = "";
         }
         const displayInterval = minutes.value.slice(minutes.value.length - 2) + ":" + displaySeconds.slice(displaySeconds.length - 2);
-        dispatch(addSet(count.value, dist.value, displayInterval));
+        dispatch(actions.addSet(count.value, dist.value, displayInterval));
         document.getElementById('set-form').reset();
       }}
       id="set-form"
