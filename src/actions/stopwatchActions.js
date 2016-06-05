@@ -1,29 +1,21 @@
 import C from './../constants';
 
 export default {
-   startStopwatch: () => {
-      return {
+   startStopwatch: () => ({
          offset: Date.now(),
          type: C.START_STOPWATCH
-      }
-   },
+   }),
 
-   stopStopwatch: () => {
-      return {
+   stopStopwatch: () => ({
          type: C.STOP_STOPWATCH
-      }
-   },
+   }),
 
-   incrementTime: () => {
-      return {
+   incrementTime: () => ({
          type: C.INCREMENT_STOPWATCH,
          time: Date.now()
-      }
-   },
+   }),
 
-   resetStopwatch: () => {
-      return {
+   resetStopwatch: () => ({
         type: "RESET_STOPWATCH"
-      }
-   }
+   })
 }

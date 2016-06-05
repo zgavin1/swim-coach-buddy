@@ -4,27 +4,21 @@ import C from "./../constants";
 let nextSetId = 0;
 
 export default {
-   addSet: (count, dist, interval) => {
-      return {
-         type: C.ADD_SET,
-         id: nextSetId++,
-         count,
-         dist,
-         interval
-      };
-   },
-   
-   removeSet: (id) => {
-      return {
-        type: C.REMOVE_SET,
-        id
-      }
-   },
+   addSet: (count, dist, interval) => ({
+      type: C.ADD_SET,
+      id: nextSetId++,
+      count,
+      dist,
+      interval
+   }),
 
-   toggleSet: (id) => {
-      return {
-         type: C.TOGGLE_SET,
-         id
-      }
-   }
+   removeSet: (id) => ({
+     type: C.REMOVE_SET,
+     id
+   }),
+
+   toggleSet: (id) => ({
+      type: C.TOGGLE_SET,
+      id
+   })
 }

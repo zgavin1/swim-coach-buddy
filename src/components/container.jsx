@@ -10,16 +10,18 @@ import SetList from './setlistcontainer';
 const MyApp = () => {
    return (
     <div className="ui container center aligned">
-      <span className="ui container center aligned">
-        <h1 className="ui masthead">
-           Swim Coach Buddy
-        </h1>
-      </span>
-      <main className="ui container center aligned group">
+      <h1 className="ui masthead">
+         Swim Coach Buddy
+      </h1>
+      <div className="ui divider"></div>
+      <main className="ui three column very relaxed grid center aligned">
         <SetBuilder />
+        <div className="ui vertical divider"></div>
         <SetList />
+        <div className="ui vertical divider"></div>
         <StopWatch />
       </main>
+      <div className="ui divider"></div>
       <Footer />
     </div>
    );
