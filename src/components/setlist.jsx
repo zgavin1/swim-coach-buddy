@@ -44,25 +44,21 @@ const getVisibleSets = (
   }
 }
 
-const mapStateToSetListProps = (state) => {
-  return {
+const mapStateToSetListProps = (state) => ({
     sets: getVisibleSets(
       state.sets,
       state.visibilityFilter
     )
-  };
-};
+});
 
-const mapDispatchToSetListProps = (dispatch) => {
-  return {
-    onSetClick: (id) => {
+const mapDispatchToSetListProps = (dispatch) => ({
+    onSetClick(id) {
       dispatch(actions.toggleSet(id))
     },
-    onSetClose: (id) => {
+    onSetClose(id) {
       dispatch(actions.removeSet(id))
     }
-  };
-};
+});
 
 const VisibleSetList = connect(
   mapStateToSetListProps,

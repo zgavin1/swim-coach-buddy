@@ -25,24 +25,20 @@ const Filter = ({
 };
 
 const mapStateToLinkProps = (
-   state,
-   ownProps
-) => {
-   return {
-      active: ownProps.filter === state.filter
-   };
-};
+  state,
+  ownProps
+) => ({
+  active: ownProps.filter === state.filter
+});
 
 const mapDispatchToLinkProps = (
-   dispatch,
-   ownProps
-) => {
-   return {
-      onClick: () => {
-         dispatch(actions.setVisibilityFilter(ownProps.filter))
-      }
-   };
-};
+  dispatch,
+  ownProps
+) => ({
+  onClick() {
+    dispatch(actions.setVisibilityFilter(ownProps.filter))
+  }
+});
 
 export default connect(
    mapStateToLinkProps,

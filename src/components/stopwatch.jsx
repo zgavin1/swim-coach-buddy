@@ -44,32 +44,28 @@ const StopWatchDisplay = ({
 
 const mapStateToStopWatchProps = (
   state
-) => {
-  return {
-    running: state.stopWatch.running,
-    time: state.stopWatch.time,
-    offset: state.stopWatch.offset
-  }
-}
+) => ({
+  running: state.stopWatch.running,
+  time: state.stopWatch.time,
+  offset: state.stopWatch.offset
+})
 
 const mapDispatchToStopWatchProps = (
   dispatch
-) => {
-  return {
-    start: () => {
-      dispatch(actions.startStopwatch());
-    },
-    stop: () => {
-      dispatch(actions.stopStopwatch())
-    },
-    onRunning: () => {
-      dispatch(actions.incrementTime());
-    },
-    resetTime: () => {
-      dispatch(actions.resetStopwatch())
-    }
-  };
-};
+) => ({
+  start() {
+    dispatch(actions.startStopwatch());
+  },
+  stop() {
+    dispatch(actions.stopStopwatch())
+  },
+  onRunning() {
+    dispatch(actions.incrementTime());
+  },
+  resetTime() {
+    dispatch(actions.resetStopwatch())
+  }
+});
 
 const StopWatch = connect(
   mapStateToStopWatchProps,
