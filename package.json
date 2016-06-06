@@ -34,7 +34,9 @@
     "expect": "^1.20.1",
     "express-generator": "^4.13.1",
     "jquery": "^2.2.4",
+    "lodash": "^4.13.1",
     "mocha": "^2.5.1",
+    "node-uuid": "^1.4.7",
     "react": "^0.14.7",
     "watchify": "^3.7.0"
   },
