@@ -7,15 +7,15 @@ export default () => (
   <div className="ui container center aligned">
     Show:
     {"  "}
-    <Filter filter="SHOW_ALL" >
+    <Filter filter="all" >
       All
     </Filter>
-    {"  "}
-    <Filter filter="SHOW_ACTIVE" >
+    {",  "}
+    <Filter filter="active" >
       Active
     </Filter>
-    {"  "}
-    <Filter filter="SHOW_COMPLETED" >
+    {",  "}
+    <Filter filter="completed" >
       Completed
     </Filter>
   </div>

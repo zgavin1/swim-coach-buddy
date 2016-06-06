@@ -29,13 +29,13 @@ const getVisibleSets = (
   filter
 ) => {
   switch (filter) {
-    case "SHOW_ALL":
+    case "all":
       return sets;
-    case "SHOW_COMPLETED":
+    case "completed":
       return sets.filter(
         s => s.completed
       );
-    case "SHOW_ACTIVE":
+    case "active":
       return sets.filter(
         s => !s.completed
       );
@@ -44,10 +44,10 @@ const getVisibleSets = (
   }
 }
 
-const mapStateToSetListProps = (state) => ({
+const mapStateToSetListProps = (state, ownProps) => ({
     sets: getVisibleSets(
       state.sets,
-      state.visibilityFilter
+      ownProps.filter
     )
 });
 

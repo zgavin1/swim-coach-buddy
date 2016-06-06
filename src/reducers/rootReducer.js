@@ -54,7 +54,7 @@ const sets = (
 };
 
 const visibilityFilter = (
-  state = "SHOW_ALL",
+  state = "all",
   action
 ) => {
   switch (action.type) {
