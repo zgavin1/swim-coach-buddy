@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import actions from './../actions/stopwatchActions';
+import { startStopwatch, stopStopwatch,
+    incrementTime, resetStopwatch } from './../actions/stopwatchActions';
 
 const StopWatchDisplay = ({
   running,
@@ -54,22 +55,27 @@ const mapDispatchToStopWatchProps = (
   dispatch
 ) => ({
   start() {
-    dispatch(actions.startStopwatch());
+    dispatch(startStopwatch());
   },
   stop() {
-    dispatch(actions.stopStopwatch())
+    dispatch(stopStopwatch())
   },
   onRunning() {
-    dispatch(actions.incrementTime());
+    dispatch(incrementTime());
   },
   resetTime() {
-    dispatch(actions.resetStopwatch())
+    dispatch(resetStopwatch())
   }
 });
 
 const StopWatch = connect(
   mapStateToStopWatchProps,
-  mapDispatchToStopWatchProps
+  { 
+    start: startStopwatch,
+    stop: stopStopwatch,
+    onRunning: incrementTime,
+    resetTime: resetStopwatch
+  }
 )(StopWatchDisplay);
 
 export default StopWatch;

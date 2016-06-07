@@ -8,22 +8,20 @@ import { v4 } from 'node-uuid';
 
 // DA's egghead tutorial suggests using the module 'node-uuid'
 // method #v4 from uuid builds a unique id every time 
-export default {
-   addSet: (count, dist, interval) => ({
-      type: C.ADD_SET,
-      id: v4(),
-      count,
-      dist,
-      interval
-   }),
+export const addSet = (count, dist, interval) => ({
+   type: C.ADD_SET,
+   id: v4(),
+   count,
+   dist,
+   interval
+});
 
-   removeSet: (id) => ({
-     type: C.REMOVE_SET,
-     id
-   }),
+export const removeSet = (id) => ({
+   type: C.REMOVE_SET,
+   id
+});
 
-   toggleSet: (id) => ({
-      type: C.TOGGLE_SET,
-      id
-   })
-}
+export const toggleSet =  (id) => ({
+   type: C.TOGGLE_SET,
+   id
+});

@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import Set from './set';
-import actions from './../actions/setActions';
-
+import { toggleSet, removeSet } from './../actions/setActions';
 
 // TODO: Figure out how/why
 // the sets are coming in weird order
@@ -46,24 +45,28 @@ const getVisibleSets = (
 }
 
 const mapStateToSetListProps = (state, { params }) => ({
-    sets: getVisibleSets(
-      state.sets,
-      params.filter || 'all'
-    )
+  sets: getVisibleSets(
+    state.sets,
+    params.filter || 'all'
+  )
 });
 
-const mapDispatchToSetListProps = (dispatch) => ({
-    onSetClick(id) {
-      dispatch(actions.toggleSet(id))
-    },
-    onSetClose(id) {
-      dispatch(actions.removeSet(id))
-    }
-});
+// const mapDispatchToSetListProps = (dispatch) => ({
+    // When the argument from the method and the 
+    // argument for the action are identical (here)
+    // can use shorthand in the connect method (below)
+
+    // onSetClick(id) {
+    //   dispatch(actions.toggleSet(id))
+    // },
+    // onSetClose(id) {
+    //   dispatch(actions.removeSet(id))
+    // }
+// });
 
 const VisibleSetList = withRouter(connect(
   mapStateToSetListProps,
-  mapDispatchToSetListProps
+  { onSetClick: toggleSet, onSetClose: removeSet }
 )(SetList));
 
 export default VisibleSetList;

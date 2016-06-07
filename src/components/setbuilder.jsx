@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import actions from './../actions/setActions';
+import { addSet } from './../actions/setActions';
 
 // this will become an "action"
 
@@ -35,7 +35,7 @@ let AddSet = ({ dispatch }) => {
           displayMinutes = "";
         }
         const displayInterval = minutes.value.slice(minutes.value.length - 2) + ":" + displaySeconds.slice(displaySeconds.length - 2);
-        dispatch(actions.addSet(count.value, dist.value, displayInterval));
+        dispatch(addSet(count.value, dist.value, displayInterval));
         document.getElementById('set-form').reset();
       }}
       id="set-form"
