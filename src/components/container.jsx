@@ -7,7 +7,7 @@ import SetBuilder from './setbuildercontainer';
 import SetList from './setlistcontainer';
 
 
-const MyApp = ({ params }) => {
+const MyApp = () => {
    return (
     <div className="ui container center aligned">
       <h1 className="ui masthead">
@@ -17,7 +17,7 @@ const MyApp = ({ params }) => {
       <main className="ui three column very relaxed grid center aligned">
         <SetBuilder />
         <div className="ui vertical divider"></div>
-        <SetList filterParam={params.filter || 'all'} />
+        <SetList />
         <div className="ui vertical divider"></div>
         <StopWatch />
       </main>

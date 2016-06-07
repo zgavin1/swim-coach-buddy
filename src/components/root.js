@@ -4,7 +4,7 @@ import App from './container';
 
 import { Router, Route, browserHistory } from 'react-router'
 
-// browser history not supported by IE9
+// browserHistory not supported by IE9
 
 const Root = ({ store }) => (
    <Provider store={store}>

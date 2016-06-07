@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import Set from './set';
 import actions from './../actions/setActions';
@@ -44,10 +45,10 @@ const getVisibleSets = (
   }
 }
 
-const mapStateToSetListProps = (state, ownProps) => ({
+const mapStateToSetListProps = (state, { params }) => ({
     sets: getVisibleSets(
       state.sets,
-      ownProps.filter
+      params.filter || 'all'
     )
 });
 
@@ -60,9 +61,9 @@ const mapDispatchToSetListProps = (dispatch) => ({
     }
 });
 
-const VisibleSetList = connect(
+const VisibleSetList = withRouter(connect(
   mapStateToSetListProps,
   mapDispatchToSetListProps
-)(SetList);
+)(SetList));
 
 export default VisibleSetList;

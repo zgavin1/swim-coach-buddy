@@ -1,8 +1,8 @@
 import React from 'react';
 import SetList from './setlist';
 
-export default ({ filterParam }) => (
+export default () => (
    <div className="container third-width">
-      <SetList filter={filterParam} />
+      <SetList />
    </div>
 );
