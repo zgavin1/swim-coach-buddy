@@ -1,112 +1,20 @@
 import { combineReducers } from 'redux';
-// // Set App
-const set = (
-  state,
-  action
-) => {
-  switch (action.type) {
-    case 'ADD_SET':
-      return {
-        id: action.id,
-        count: action.count,
-        dist: action.dist,
-        interval: action.interval,
-        completed: false
-      };
-    // case 'REMOVE_SET':
-    //   if (state.id !== action.id) {
-    //     return;
-    //   }
+import stopwatch from './stopwatch';
+import sets, * as fromSets from './sets'
 
-    //   return state;
-    case 'TOGGLE_SET':
-      if (state.id !== action.id) {
-        return state
-      }
-
-      return {
-        ...state,
-        completed: !state.completed
-      };
-    default:
-      return state
-  }
-};
-
-
-const sets = (
-  state = [],
-  action
-) => {
-  switch (action.type) {
-    case 'ADD_SET':
-      return [
-        ...state,
-        set(undefined, action)
-      ];
-    case 'REMOVE_SET':
-      return state.filter(s => s.id !== action.id);
-    case 'TOGGLE_SET':
-      return state.map(s => set(s, action));
-    default:
-      return state;
-  }
-};
-
-const visibilityFilter = (
-  state = "all",
-  action
-) => {
-  switch (action.type) {
-    case 'SET_VISIBILITY_FILTER':
-      return action.filter;
-  };
-  
-  return state;
-};
-
-
-// Could include laps later.
-
-const defaultWatchState = {
-  running: false,
-  time: 0,
-  offset: 0
-}
-
-const stopWatch = (
-  state = defaultWatchState,
-  action
-) => {
-  switch (action.type) {
-    case 'INCREMENT_STOPWATCH':
-      return {
-        ...state,
-        time: state.time + (action.time - state.offset),
-        offset: action.time
-      }
-    case 'START_STOPWATCH':
-      return {
-        ...state,
-        running: true,
-        offset: action.offset
-      };
-    case 'STOP_STOPWATCH':
-      return {
-        ...state,
-        running: false
-      };
-    case 'RESET_STOPWATCH':
-      return {
-        ...state,
-        time: 0,
-        offset: 0
-      };
-    default:
-      return state;
-  } 
-}
-
+// Neutralize the need for this reducer using
+// react-router and the native Link component
+// 
+// const visibilityFilter = (
+//   state = "all",
+//   action
+// ) => {
+//   switch (action.type) {
+//     case 'SET_VISIBILITY_FILTER':
+//       return action.filter;
+//   };
+//   return state;
+// };
 
 
 // rewriting #combinereducers
@@ -126,9 +34,14 @@ const stopWatch = (
 //   };
 // };
 
-
 export default combineReducers({
   sets,
-  visibilityFilter,
-  stopWatch
+  // visibilityFilter,
+  stopwatch
 });
+
+
+// arrow notation without curly braces or parentheses
+// returns the nested value
+export const getVisibleSets = (state, filter) =>
+  fromSets.getVisibleSets(state.sets, filter);

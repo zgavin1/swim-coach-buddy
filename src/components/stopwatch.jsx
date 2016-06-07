@@ -5,7 +5,7 @@ import moment from 'moment';
 import { startStopwatch, stopStopwatch,
     incrementTime, resetStopwatch } from './../actions/stopwatchActions';
 
-const StopWatchDisplay = ({
+const StopwatchDisplay = ({
   running,
   time,
   offset,
@@ -46,29 +46,29 @@ const StopWatchDisplay = ({
 const mapStateToStopWatchProps = (
   state
 ) => ({
-  running: state.stopWatch.running,
-  time: state.stopWatch.time,
-  offset: state.stopWatch.offset
+  running: state.stopwatch.running,
+  time: state.stopwatch.time,
+  offset: state.stopwatch.offset
 })
 
-const mapDispatchToStopWatchProps = (
-  dispatch
-) => ({
-  start() {
-    dispatch(startStopwatch());
-  },
-  stop() {
-    dispatch(stopStopwatch())
-  },
-  onRunning() {
-    dispatch(incrementTime());
-  },
-  resetTime() {
-    dispatch(resetStopwatch())
-  }
-});
+// const mapDispatchToStopWatchProps = (
+//   dispatch
+// ) => ({
+//   start() {
+//     dispatch(startStopwatch());
+//   },
+//   stop() {
+//     dispatch(stopStopwatch())
+//   },
+//   onRunning() {
+//     dispatch(incrementTime());
+//   },
+//   resetTime() {
+//     dispatch(resetStopwatch())
+//   }
+// });
 
-const StopWatch = connect(
+const Stopwatch = connect(
   mapStateToStopWatchProps,
   { 
     start: startStopwatch,
@@ -76,6 +76,6 @@ const StopWatch = connect(
     onRunning: incrementTime,
     resetTime: resetStopwatch
   }
-)(StopWatchDisplay);
+)(StopwatchDisplay);
 
-export default StopWatch;
+export default Stopwatch;
