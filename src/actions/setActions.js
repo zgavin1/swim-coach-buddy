@@ -25,3 +25,9 @@ export const toggleSet =  (id) => ({
    type: C.TOGGLE_SET,
    id
 });
+
+export const receiveSets = (filter, response) => ({
+   type: C.RECEIVE_SETS,
+   filter,
+   response
+})

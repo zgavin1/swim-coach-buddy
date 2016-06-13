@@ -11,8 +11,7 @@ export const stopStopwatch = () => ({
 })
 
 export const incrementTime = () => ({
-   type: C.INCREMENT_STOPWATCH,
-   time: Date.now()
+   type: C.INCREMENT_STOPWATCH
 })
 
 export const resetStopwatch = () => ({

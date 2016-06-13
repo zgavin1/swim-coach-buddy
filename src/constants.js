@@ -3,6 +3,7 @@ export default {
    TOGGLE_SET: "TOGGLE_SET",
    ADD_SET: "ADD_SET",
    REMOVE_SET: "REMOVE_SET",
+   RECEIVE_SETS: "RECEIVE_SETS",
 
 
    // FILTER

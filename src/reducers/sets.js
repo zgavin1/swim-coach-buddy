@@ -7,6 +7,11 @@ const byId = (
   action
 ) => {
   switch (action.type) {
+    case 'RECEIVE_SETS':
+      for (var idx in action.response) {
+        state[action.response[idx].id] = action.response[idx];
+      }
+      return state;
     case 'ADD_SET':
     case 'TOGGLE_SET':
       return {
@@ -27,19 +32,21 @@ const allIds = (
    state = [], // an array of id keys
    action
 ) => {
-   switch (action.type) {
-      case 'ADD_SET':
-         return [...state, action.id];
-      case 'REMOVE_SET':
-         return state.filter(id => id !== action.id);
-      default:
-         return state;
-   }
+  switch (action.type) {
+    case 'RECEIVE_SETS':
+      return action.response.map(set => set.id);
+    case 'ADD_SET':
+      return [...state, action.id];
+    case 'REMOVE_SET':
+      return state.filter(id => id !== action.id);
+    default:
+      return state;
+  }
 }
 
 const sets = combineReducers({
-   byId,
-   allIds
+  byId,
+  allIds
 })
 
 export default sets;

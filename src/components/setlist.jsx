@@ -1,10 +1,40 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import Set from './set';
-import { toggleSet, removeSet } from './../actions/setActions';
+import * as actions from './../actions/setActions';
 import { getVisibleSets } from './../reducers/rootReducer';
+import { fetchSets } from './../api';
+
+class VisibleSetList extends Component {
+  componentDidMount() {
+    // debugger
+    // fetchSets(this.props.filter).then(sets =>
+    //   console.log(this.props.filter, sets)
+    // );
+    this.fetchData();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.filter !== prevProps) {
+      this.fetchData();
+    }
+  }
+
+  fetchData() {
+    const { filter, receiveSets } = this.props;
+    fetchSets(filter).then(sets =>
+      receiveSets(filter, sets)
+    );
+  }
+
+  render() {
+    const { toggleSet, removeSet, ...rest } = this.props;
+    return <SetList { ...rest} onSetClose={removeSet} onSetClick={toggleSet} />
+  }
+}
+
 // TODO: Figure out how/why
 // the sets are coming in weird order
 // order seems to be pyramidal(?)
@@ -44,14 +74,13 @@ const SetList = ({
 //   }
 // }
 
-const mapStateToSetListProps = (state, { params }) => ({
-  // using this helper requires that i update it
-  // if i ever change the state structure
-  sets: getVisibleSets(
-    state,
-    params.filter || 'all'
-  )
-});
+const mapStateToSetListProps = (state, { params }) => {
+  const filter = params.filter || 'all';
+  return {
+    sets: getVisibleSets(state, filter),
+    filter: filter
+  }
+};
 
 // const mapDispatchToSetListProps = (dispatch) => ({
     // When the argument from the method and the 
@@ -66,9 +95,9 @@ const mapStateToSetListProps = (state, { params }) => ({
     // }
 // });
 
-const VisibleSetList = withRouter(connect(
+VisibleSetList = withRouter(connect(
   mapStateToSetListProps,
-  { onSetClick: toggleSet, onSetClose: removeSet }
-)(SetList));
+  actions
+)(VisibleSetList));
 
 export default VisibleSetList;

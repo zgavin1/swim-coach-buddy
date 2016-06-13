@@ -12,7 +12,7 @@ const stopwatch = (
     case 'INCREMENT_STOPWATCH':
       return {
         ...state,
-        time: state.time + (action.time - state.offset),
+        time: state.time + (Date.now - state.offset),
         offset: action.time
       }
     case 'START_STOPWATCH':
