@@ -1,6 +1,6 @@
 import C from "./../constants";
 import { v4 } from 'node-uuid';
-
+import * as api from './../api';
 
 // let nextSetId = 0;
 // previous line will initialize to zero on every refresh
@@ -26,8 +26,13 @@ export const toggleSet =  (id) => ({
    id
 });
 
-export const receiveSets = (filter, response) => ({
+const receiveSets = (filter, response) => ({
    type: C.RECEIVE_SETS,
    filter,
    response
 })
+
+export const fetchSets = (filter) =>
+   api.fetchSets(filter).then(response =>
+      receiveSets(filter, response)
+   );
