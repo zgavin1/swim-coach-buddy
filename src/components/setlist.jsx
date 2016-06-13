@@ -7,6 +7,7 @@ import * as actions from './../actions/setActions';
 import { getVisibleSets } from './../reducers/rootReducer';
 import { fetchSets } from './../api';
 
+// continer component, ehances the SetList component with logic
 class VisibleSetList extends Component {
   componentDidMount() {
     // debugger
@@ -17,21 +18,24 @@ class VisibleSetList extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.filter !== prevProps) {
+    if (this.props.filter !== prevProps.filter) {
       this.fetchData();
     }
   }
 
   fetchData() {
-    const { filter, receiveSets } = this.props;
-    fetchSets(filter).then(sets =>
-      receiveSets(filter, sets)
-    );
+    const { filter, fetchSets } = this.props;
+    fetchSets(filter);
   }
 
   render() {
     const { toggleSet, removeSet, ...rest } = this.props;
-    return <SetList { ...rest} onSetClose={removeSet} onSetClick={toggleSet} />
+    return (
+      <SetList
+        { ...rest}
+        onSetClose={removeSet}
+        onSetClick={toggleSet} />
+    );
   }
 }
 
@@ -78,7 +82,7 @@ const mapStateToSetListProps = (state, { params }) => {
   const filter = params.filter || 'all';
   return {
     sets: getVisibleSets(state, filter),
-    filter: filter
+    filter
   }
 };
 
