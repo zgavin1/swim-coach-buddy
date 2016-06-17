@@ -1,9 +1,15 @@
 // import throttle from 'lodash/throttle';
 import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 // import { loadState, saveState } from './localStorage';
 import rootReducer from './reducers';
-import promise from 'redux-promise';
+// import promise from 'redux-promise';
 import createLogger from 'redux-logger'
+
+// const thunk = (store) => (next) => (action) =>
+//    typeof action === 'function' ?
+//       action(store.dispatch, store.getState) :
+//       next(action);
 
 // const logger = (store) => (next) => {
 //    if (!console.group) {
@@ -49,7 +55,7 @@ import createLogger from 'redux-logger'
 
 const configureStore = () => {
    // const persistedState = loadState();
-   const middlewares = [promise];
+   const middlewares = [thunk];
    if (process.env.NODE_ENV !== 'production') {
       middlewares.push(createLogger());
    }

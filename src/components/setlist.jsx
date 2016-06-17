@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 
 import Set from './set';
 import * as actions from './../actions/setActions';
-import { getVisibleSets } from './../reducers';
+import { getVisibleSets, getIsFetching } from './../reducers';
 import { fetchSets } from './../api';
 
 // continer component, ehances the SetList component with logic
@@ -25,17 +25,23 @@ class VisibleSetList extends Component {
 
   fetchData() {
     const { filter, fetchSets } = this.props;
+    // const { filter, fetchSets, requestSets } = this.props;
     fetchSets(filter);
   }
 
   render() {
-    const { toggleSet, removeSet, todos, isFetching, ...rest } = this.props;
+    const { toggleSet, removeSet, sets, isFetching, ...rest } = this.props;
+
+    if (isFetching && !sets.length) {
+      return <p> Loading! </p>
+    }
 
     return (
       <SetList
         { ...rest}
         onSetClose={removeSet}
-        onSetClick={toggleSet} />
+        onSetClick={toggleSet}
+        sets={sets} />
     );
   }
 }
@@ -83,6 +89,7 @@ const mapStateToSetListProps = (state, { params }) => {
   const filter = params.filter || 'all';
   return {
     sets: getVisibleSets(state, filter),
+    isFetching: getIsFetching(state, filter),
     filter
   }
 };

@@ -1,6 +1,7 @@
 import C from "./../constants";
 import { v4 } from 'node-uuid';
 import * as api from './../api';
+import { getIsFetching } from './../reducers';
 
 // let nextSetId = 0;
 // previous line will initialize to zero on every refresh
@@ -26,13 +27,25 @@ export const toggleSet =  (id) => ({
    id
 });
 
+const requestSets = (filter) => ({
+   type: "REQUEST_SETS",
+   filter
+})
+
 const receiveSets = (filter, response) => ({
    type: C.RECEIVE_SETS,
    filter,
    response
 })
 
-export const fetchSets = (filter) =>
-   api.fetchSets(filter).then(response =>
-      receiveSets(filter, response)
+export const fetchSets = (filter) => (dispatch, getState) => {
+   if (getIsFetching(getState(), filter)) {
+      return Promise.resolve();
+   }
+
+   dispatch(requestSets(filter));
+
+   return api.fetchSets(filter).then(response =>
+      dispatch(receiveSets(filter, response))
    );
+}

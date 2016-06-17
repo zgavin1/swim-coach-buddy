@@ -25,7 +25,7 @@ const delay = (ms) =>
   new Promise(resolve => setTimeout(resolve, ms));
 
 export const fetchSets = (filter) =>
-  delay(500).then(() => {
+  delay(5000).then(() => {
     switch (filter) {
       case 'all':
         return fakeData.sets

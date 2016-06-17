@@ -71,20 +71,8 @@ export const getVisibleSets = (
 ) => {
   const ids = fromList.getIds(state.listByFilter[filter]);
   return ids.map(id => fromById.getSet(state.byId, id));
-   // const allSets = getAllSets(state);
-   // switch (filter) {
-   //    case "all":
-   //       return allSets;
-   //    case "completed":
-   //       return allSets.filter(
-   //         s => s.completed
-   //       );
-   //    case "active":
-   //       return allSets.filter(
-   //         s => !s.completed
-   //       );
-   //    default:
-   //       throw new Error('Uknown filter.');
-   // }
 }
+
+export const getIsFetching = (state, filter) =>
+  fromList.getIsFetching(state.listByFilter[filter]);
 
