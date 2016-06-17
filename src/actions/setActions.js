@@ -1,5 +1,7 @@
 import C from "./../constants";
-import { v4 } from 'node-uuid';
+// import { v4 } from 'node-uuid';
+import { normalize } from 'normalizr';
+import * as schema from './schema';
 import * as api from './../api';
 import { getIsFetching } from './../reducers';
 
@@ -12,9 +14,10 @@ import { getIsFetching } from './../reducers';
 // export const addSet = (count, dist, interval) => ({
 export const addSet = (count, dist, interval) => (dispatch) =>
    api.addSet(count, dist, interval).then(response => {
+      // console.log('normalized response', normalize(response, schema.todo))
       dispatch({
          type: "ADD_SET_SUCCESS",
-         response
+         response: normalize(response, schema.todo)
       })
    })
 
@@ -57,10 +60,11 @@ export const fetchSets = (filter) => (dispatch, getState) => {
 
    return api.fetchSets(filter).then(
       response => {
+         console.log('normalized response', normalize(response, schema.arrayOfSets))
          dispatch({
             type: "FETCH_SETS_SUCCESS",
             filter,
-            response
+            response: normalize(response, schema.arrayOfSets)
          })
       },
       error => {

@@ -8,13 +8,15 @@ const createList = (filter) => {
       switch (action.type) {
          case 'FETCH_SETS_SUCCESS':
             return filter === action.filter ?
-               action.response.map(set => set.id) :
+               // action.response.map(set => set.id) :
+               action.response.result
                state;
       // case 'ADD_SET':
       //   return [...state, action.id];
          case 'ADD_SET_SUCCESS':
             return filter !==  'completed' ?
-               [ ...state, action.response.id] :
+               // [ ...state, action.response.id] :
+               [ ...state, action.response.result] :
                state;
          case 'REMOVE_SET_SUCCESS':
             return state.filter(id => id !== action.response.id);
