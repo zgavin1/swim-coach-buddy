@@ -6,12 +6,25 @@ const createList = (filter) => {
          return state
       }
       switch (action.type) {
-         case 'RECEIVE_SETS':
+         case 'FETCH_TODOS_SUCCESS':
             return action.response.map(set => set.id);
       // case 'ADD_SET':
       //   return [...state, action.id];
          case 'REMOVE_SET':
             return state.filter(id => id !== action.id);
+         default:
+            return state;
+      }
+   }const errorMessage = (state = null, action) => {
+      if (filter !== action.filter) {
+         return state
+      }
+      switch (action.type) {
+         case: 'FETCH_TODOS_FAILURE':
+            return action.message;
+         case 'FETCH_TODOS_SUCCESS':
+         case 'FETCH_TODOS_REQUEST':
+            return null;
          default:
             return state;
       }
@@ -22,9 +35,10 @@ const createList = (filter) => {
          return state
       }
       switch (action.type) {
-         case 'REQUEST_SETS':
+         case 'FETCH_TODOS_REQUEST':
             return true;
-         case 'RECEIVE_SETS':
+         case 'FETCH_TODOS_SUCCESS':
+         case 'FETCH_TODOS_FAILURE':
             return false
          default:
             return state;
@@ -33,6 +47,7 @@ const createList = (filter) => {
 
    return combineReducers({
       ids,
+      errorMessage,
       isFetching
    })
 }
@@ -41,3 +56,4 @@ export default createList;
 
 export const getIds = (state) => state.ids;
 export const getIsFetching = (state) => state.isFetching;
+export const getErrorMessage = (state) => state.errorMessage;

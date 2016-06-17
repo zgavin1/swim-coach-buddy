@@ -4,8 +4,9 @@ import { withRouter } from 'react-router';
 
 import Set from './set';
 import * as actions from './../actions/setActions';
-import { getVisibleSets, getIsFetching } from './../reducers';
+import { getVisibleSets, getIsFetching, getErrorMessage } from './../reducers';
 import { fetchSets } from './../api';
+improt FetchError from './fetcherror';
 
 // continer component, ehances the SetList component with logic
 class VisibleSetList extends Component {
@@ -30,10 +31,17 @@ class VisibleSetList extends Component {
   }
 
   render() {
-    const { toggleSet, removeSet, sets, isFetching, ...rest } = this.props;
+    const { toggleSet, errorMessage, removeSet, sets, isFetching, ...rest } = this.props;
 
     if (isFetching && !sets.length) {
       return <p> Loading! </p>
+    }
+
+    if (errorMessage && !sets.length) {
+      return(
+        <FetchError
+          message={errorMessage}
+          onRetry={() => this.fetchData()})
     }
 
     return (
@@ -90,6 +98,7 @@ const mapStateToSetListProps = (state, { params }) => {
   return {
     sets: getVisibleSets(state, filter),
     isFetching: getIsFetching(state, filter),
+    errorMessage: getErrorMessage(state, filter),
     filter
   }
 };

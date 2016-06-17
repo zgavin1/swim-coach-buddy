@@ -27,25 +27,41 @@ export const toggleSet =  (id) => ({
    id
 });
 
-const requestSets = (filter) => ({
-   type: "REQUEST_SETS",
-   filter
-})
+// const requestSets = (filter) => ({
+//    type: "REQUEST_SETS",
+//    filter
+// })
 
-const receiveSets = (filter, response) => ({
-   type: C.RECEIVE_SETS,
-   filter,
-   response
-})
+// const receiveSets = (filter, response) => ({
+//    type: C.RECEIVE_SETS,
+//    filter,
+//    response
+// })
 
 export const fetchSets = (filter) => (dispatch, getState) => {
    if (getIsFetching(getState(), filter)) {
       return Promise.resolve();
    }
 
-   dispatch(requestSets(filter));
+   dispatch({
+      type: "FETCH_TODOS_REQUEST",
+      filter
+   })
 
-   return api.fetchSets(filter).then(response =>
-      dispatch(receiveSets(filter, response))
+   return api.fetchSets(filter).then(
+      response => {
+         dispatch({
+            type: "FETCH_TODOS_SUCCESS",
+            filter,
+            response
+         })
+      },
+      error => {
+         dispatch({
+            type: "FETCH_TODOS_FAILURE",
+            filter,
+            message: error.message || "Something went wrong."
+         })
+      }
    );
 }

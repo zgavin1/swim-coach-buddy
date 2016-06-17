@@ -7,7 +7,7 @@ const byId = (
   action
 ) => {
   switch (action.type) {
-    case 'RECEIVE_SETS':
+    case 'FETCH_TODOS_SUCCESS':
       let nextState = { ...state };
 
       action.response.forEach(set => {
