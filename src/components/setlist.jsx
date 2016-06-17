@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 
 import Set from './set';
 import * as actions from './../actions/setActions';
-import { getVisibleSets } from './../reducers/rootReducer';
+import { getVisibleSets } from './../reducers';
 import { fetchSets } from './../api';
 
 // continer component, ehances the SetList component with logic
@@ -29,7 +29,8 @@ class VisibleSetList extends Component {
   }
 
   render() {
-    const { toggleSet, removeSet, ...rest } = this.props;
+    const { toggleSet, removeSet, todos, isFetching, ...rest } = this.props;
+
     return (
       <SetList
         { ...rest}

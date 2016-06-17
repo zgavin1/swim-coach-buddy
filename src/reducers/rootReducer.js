@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux';
-import stopwatch from './stopwatch';
-import sets, * as fromSets from './sets'
+// import { combineReducers } from 'redux';
+// import stopwatch from './stopwatch';
+// import sets, * as fromSets from './sets'
 
 // Neutralize the need for this reducer using
 // react-router and the native Link component
@@ -34,14 +34,14 @@ import sets, * as fromSets from './sets'
 //   };
 // };
 
-export default combineReducers({
-  sets,
-  // visibilityFilter,
-  stopwatch
-});
+// export default combineReducers({
+//   sets,
+//   // visibilityFilter,
+//   stopwatch
+// });
 
 
 // arrow notation without curly braces or parentheses
 // returns the nested value
-export const getVisibleSets = (state, filter) =>
-  fromSets.getVisibleSets(state.sets, filter);
+// export const getVisibleSets = (state, filter) =>
+//   fromSets.getVisibleSets(state.sets, filter);
