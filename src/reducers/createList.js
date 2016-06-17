@@ -2,28 +2,37 @@ import { combineReducers } from 'redux'
 
 const createList = (filter) => {
    const ids = (state = [], action) => {
-      if (action.filter !== filter) {
-         return state
-      }
+      // if (action.filter !== filter) {
+      //    return state
+      // }
       switch (action.type) {
-         case 'FETCH_TODOS_SUCCESS':
-            return action.response.map(set => set.id);
+         case 'FETCH_SETS_SUCCESS':
+            return filter === action.filter ?
+               action.response.map(set => set.id) :
+               state;
       // case 'ADD_SET':
       //   return [...state, action.id];
-         case 'REMOVE_SET':
-            return state.filter(id => id !== action.id);
+         case 'ADD_SET_SUCCESS':
+            return filter !==  'completed' ?
+               [ ...state, action.response.id] :
+               state;
+         case 'REMOVE_SET_SUCCESS':
+            return state.filter(id => id !== action.response.id);
+         case 'TOGGLE_SET_SUCCESS':
          default:
             return state;
       }
-   }const errorMessage = (state = null, action) => {
+   }
+
+   const errorMessage = (state = null, action) => {
       if (filter !== action.filter) {
          return state
       }
       switch (action.type) {
-         case: 'FETCH_TODOS_FAILURE':
+         case 'FETCH_SETS_FAILURE':
             return action.message;
-         case 'FETCH_TODOS_SUCCESS':
-         case 'FETCH_TODOS_REQUEST':
+         case 'FETCH_SETS_SUCCESS':
+         case 'FETCH_SETS_REQUEST':
             return null;
          default:
             return state;
@@ -35,10 +44,10 @@ const createList = (filter) => {
          return state
       }
       switch (action.type) {
-         case 'FETCH_TODOS_REQUEST':
+         case 'FETCH_SETS_REQUEST':
             return true;
-         case 'FETCH_TODOS_SUCCESS':
-         case 'FETCH_TODOS_FAILURE':
+         case 'FETCH_SETS_SUCCESS':
+         case 'FETCH_SETS_FAILURE':
             return false
          default:
             return state;

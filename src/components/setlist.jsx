@@ -6,7 +6,7 @@ import Set from './set';
 import * as actions from './../actions/setActions';
 import { getVisibleSets, getIsFetching, getErrorMessage } from './../reducers';
 import { fetchSets } from './../api';
-improt FetchError from './fetcherror';
+import FetchError from './fetcherror';
 
 // continer component, ehances the SetList component with logic
 class VisibleSetList extends Component {
@@ -38,10 +38,11 @@ class VisibleSetList extends Component {
     }
 
     if (errorMessage && !sets.length) {
-      return(
+      return (
         <FetchError
           message={errorMessage}
-          onRetry={() => this.fetchData()})
+          onRetry={() => this.fetchData()} />
+      );
     }
 
     return (

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FetchError({
+const FetchError = ({
    message,
    onRetry
 }) => (

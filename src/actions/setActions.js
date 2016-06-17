@@ -9,23 +9,30 @@ import { getIsFetching } from './../reducers';
 
 // DA's egghead tutorial suggests using the module 'node-uuid'
 // method #v4 from uuid builds a unique id every time 
-export const addSet = (count, dist, interval) => ({
-   type: C.ADD_SET,
-   id: v4(),
-   count,
-   dist,
-   interval
-});
+// export const addSet = (count, dist, interval) => ({
+export const addSet = (count, dist, interval) => (dispatch) =>
+   api.addSet(count, dist, interval).then(response => {
+      dispatch({
+         type: "ADD_SET_SUCCESS",
+         response
+      })
+   })
 
-export const removeSet = (id) => ({
-   type: C.REMOVE_SET,
-   id
-});
+export const removeSet = (id) => (dispatch) =>
+   api.removeSet(id).then(response => {
+      dispatch({
+         type: "REMOVE_SET_SUCCESS",
+         response
+      })   
+   })
 
-export const toggleSet =  (id) => ({
-   type: C.TOGGLE_SET,
-   id
-});
+export const toggleSet = (id) => (dispatch) =>
+   api.toggleSet(id).then(response => {
+      dispatch({
+         type: "TOGGLE_SET_SUCCESS",
+         response
+      })
+   })
 
 // const requestSets = (filter) => ({
 //    type: "REQUEST_SETS",
@@ -44,21 +51,21 @@ export const fetchSets = (filter) => (dispatch, getState) => {
    }
 
    dispatch({
-      type: "FETCH_TODOS_REQUEST",
+      type: "FETCH_SETS_REQUEST",
       filter
    })
 
    return api.fetchSets(filter).then(
       response => {
          dispatch({
-            type: "FETCH_TODOS_SUCCESS",
+            type: "FETCH_SETS_SUCCESS",
             filter,
             response
          })
       },
       error => {
          dispatch({
-            type: "FETCH_TODOS_FAILURE",
+            type: "FETCH_SETS_FAILURE",
             filter,
             message: error.message || "Something went wrong."
          })

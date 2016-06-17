@@ -10,7 +10,7 @@ const fakeData = {
      count: "3",
      dist: "300",
      interval: "4:00",
-     completed: false
+     completed: true
    },
    {
      id: v4(),
@@ -40,3 +40,30 @@ export const fetchSets = (filter) =>
         throw new Error("Unknown filter.");
     }
   });
+
+export const addSet = (count, dist, interval) =>
+  delay(500).then(() => {
+    const set = {
+      id: v4(),
+      count,
+      dist,
+      interval,
+      completed: false
+    };
+    fakeData.sets.push(set);
+    return set;
+  });
+
+export const toggleSet = (id) =>
+  delay(500).then(() => {
+    const set = fakeData.sets.find(s => s.id === id);
+    set.completed = !set.completed;
+    return set;
+  });
+
+export const removeSet = (id) =>
+  delay(500).then(() => {
+    fakeData.sets = fakeData.sets.filter(s => s.id !== id);
+    return {id: id};
+  })
+
