@@ -14,10 +14,10 @@ import { getIsFetching } from './../reducers';
 // export const addSet = (count, dist, interval) => ({
 export const addSet = (count, dist, interval) => (dispatch) =>
    api.addSet(count, dist, interval).then(response => {
-      // console.log('normalized response', normalize(response, schema.todo))
+      // console.log('normalized response', normalize(response, schema.set))
       dispatch({
          type: "ADD_SET_SUCCESS",
-         response: normalize(response, schema.todo)
+         response: normalize(response, schema.set)
       })
    })
 
@@ -33,7 +33,7 @@ export const toggleSet = (id) => (dispatch) =>
    api.toggleSet(id).then(response => {
       dispatch({
          type: "TOGGLE_SET_SUCCESS",
-         response: normalize(response, schema.todo)
+         response: normalize(response, schema.set)
       })
    })
 
