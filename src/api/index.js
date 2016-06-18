@@ -6,14 +6,14 @@ import { v4 } from 'node-uuid';
 
 const fakeData = {
    sets: [{
-     id: v4(),
+     id: "abc",
      count: "3",
      dist: "300",
      interval: "4:00",
      completed: true
    },
    {
-     id: v4(),
+     id: "123",
      count: "5",
      dist: "100",
      interval: "1:30",
