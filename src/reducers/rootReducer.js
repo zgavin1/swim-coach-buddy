@@ -1,3 +1,7 @@
+//**** DEPRECATED FILE ****//
+//**** DEPRECATED FILE ****//
+//**** DEPRECATED FILE ****//
+
 // import { combineReducers } from 'redux';
 // import stopwatch from './stopwatch';
 // import sets, * as fromSets from './sets'
