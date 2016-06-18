@@ -33,7 +33,7 @@ export const toggleSet = (id) => (dispatch) =>
    api.toggleSet(id).then(response => {
       dispatch({
          type: "TOGGLE_SET_SUCCESS",
-         response
+         response: normalize(response, schema.todo)
       })
    })
 

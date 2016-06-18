@@ -1,6 +1,18 @@
 import { combineReducers } from 'redux'
 
 const createList = (filter) => {
+   const handleToggle = (state, action) => {
+      const { result: toggleId, entities } = action.response;
+      const { completed } = entities.todos[toggleId];
+      const shouldRemove = (
+         (completed && filter === 'active') ||
+         (!completed && filter === 'completed')
+      );
+      return shouldRemove ?
+         state.filter(id => id !== toggleId) :
+         state;
+   }
+
    const ids = (state = [], action) => {
       // if (action.filter !== filter) {
       //    return state
@@ -9,7 +21,7 @@ const createList = (filter) => {
          case 'FETCH_SETS_SUCCESS':
             return filter === action.filter ?
                // action.response.map(set => set.id) :
-               action.response.result
+               action.response.result :
                state;
       // case 'ADD_SET':
       //   return [...state, action.id];
@@ -21,6 +33,7 @@ const createList = (filter) => {
          case 'REMOVE_SET_SUCCESS':
             return state.filter(id => id !== action.response.id);
          case 'TOGGLE_SET_SUCCESS':
+            return handleToggle(state, action)
          default:
             return state;
       }
