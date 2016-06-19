@@ -35,16 +35,10 @@ test('fetchSets gets "all" fakeData', async t => {
    t.deepEqual(fetchData, seedData.sets);
 })
 
-test('fetchSets gets "completed" fakeData', async t => {
+test('fetchSets gets sets based on completed property', async t => {
    const fetchData = await api.fetchSets('completed');
 
    t.deepEqual(fetchData, [seedData.sets[0]]);
-})
-
-test('fetchSets gets "active" fakeData', async t => {
-   const fetchData = await api.fetchSets('active');
-
-   t.deepEqual(fetchData, [seedData.sets[1]]);
 })
 
 test('addSet builds an active set object and returns it', async t => {
