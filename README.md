@@ -1,3 +1,9 @@
+#Swim Coach Buddy
+An app for coaches to write practices
+and run them.
+
+Built with idiomatic redux, react. Handling restful APIs,
+
 ##TODO:
 
-Make action creators. Make constants
+More tests. Add Redux DevTools. Implement backend... possibly node.
