@@ -18,8 +18,8 @@ const StopwatchDisplay = ({
   if (running) {
     setTimeout(onRunning, 10);
   }
-
-  let displayTime = moment(time).format("mm:ss.SS")
+  // debugger
+  let displayTime = moment(moment(time).diff(offset)).format("mm:ss.SS")
 
   const startButton = 
     <button

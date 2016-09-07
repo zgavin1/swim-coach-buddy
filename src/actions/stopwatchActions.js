@@ -1,8 +1,8 @@
 import C from './../constants';
-
+import moment from 'moment';
 
 export const startStopwatch = () => ({
-   offset: Date.now(),
+   offset: moment(),
    type: C.START_STOPWATCH
 })
 
