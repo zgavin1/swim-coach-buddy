@@ -60,7 +60,7 @@ export const toggleSet = (id) =>
 
 export const removeSet = (id) =>
   delay(500).then(() => {
+    const set = fakeData.sets.find(s => s.id === id);
     fakeData.sets = fakeData.sets.filter(s => s.id !== id);
-    return {id: id};
+    return set;
   })
-

@@ -10,7 +10,7 @@ import { getIsFetching } from './../reducers';
 // if im persisting state this becomes an issue
 
 // DA's egghead tutorial suggests using the module 'node-uuid'
-// method #v4 from uuid builds a unique id every time 
+// method #v4 from uuid builds a unique id every time
 // export const addSet = (count, dist, interval) => ({
 export const addSet = (count, dist, interval) => (dispatch) =>
    api.addSet(count, dist, interval).then(response => {
@@ -25,8 +25,8 @@ export const removeSet = (id) => (dispatch) =>
    api.removeSet(id).then(response => {
       dispatch({
          type: "REMOVE_SET_SUCCESS",
-         response
-      })   
+         response: normalize(response, schema.set)
+      })
    })
 
 export const toggleSet = (id) => (dispatch) =>
