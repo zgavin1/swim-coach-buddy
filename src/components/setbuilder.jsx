@@ -1,20 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import { addSet } from './../actions/setActions';
-
-// this will become an "action"
-
-// let nextSetId = 0;
-// const addSet = (count, dist, interval) => {
-//   return {
-//     type: "ADD_SET",
-//     id: nextSetId++,
-//     count,
-//     dist,
-//     interval
-//   };
-// };
 
 // gets dispatch using ES6 syntax directly from props
 let AddSet = ({ dispatch }) => {
@@ -22,10 +8,10 @@ let AddSet = ({ dispatch }) => {
   let count;
   let minutes;
   let seconds;
-  
+
   return (
     <form onSubmit={(e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         if (dist.value === "" || count.value === "" || (minutes.value === "0" && seconds.value === "00")) {
           return;
         }
@@ -46,7 +32,7 @@ let AddSet = ({ dispatch }) => {
         <label>describe your set</label>
         <div className="two fields">
           <div className="field">
-            <input 
+            <input
               ref={node=> {
                 count=node;
               }}
@@ -54,10 +40,10 @@ let AddSet = ({ dispatch }) => {
               min="1"
               max="100"
               placeholder="reps..." />
-          </div> 
+          </div>
           <p>X</p>
           <div className="field">
-            <input 
+            <input
               ref={node=> {
                 dist=node;
               }}
@@ -73,7 +59,7 @@ let AddSet = ({ dispatch }) => {
         <label>interval</label>
         <div className="two fields">
           <div className="field">
-            <input 
+            <input
             ref={node=> {
               minutes=node;
             }}
@@ -101,7 +87,7 @@ let AddSet = ({ dispatch }) => {
   );
 };
 
-// Connect call without any argument will 
+// Connect call without any argument will
 // not subscribe to the store, but will provide dispatch
 const AddSets = connect()(AddSet)
 

@@ -1,9 +1,7 @@
 import React from 'react';
 import Footer from './footer';
 import StopWatch from './stopwatchcontainer';
-// import AddSets from './setbuilder';
 import SetBuilder from './setbuildercontainer';
-// import SetList from './setlist';
 import SetList from './setlistcontainer';
 
 
