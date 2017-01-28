@@ -5,7 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "NODE_PATH=src ava",
-    "start": "webpack-dev-server --build"
+    "start": "webpack-dev-server --build",
+    "server": "node ./app/bin/www"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
     "moment": "^2.13.0",
     "momentjs": "^1.1.6",
     "normalizr": "^2.1.0",
+    "pg": "^6.1.0",
     "react": "^0.14.8",
     "react-dom": "^0.14.7",
     "react-redux": "^4.4.5",
