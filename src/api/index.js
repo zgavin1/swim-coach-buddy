@@ -3,7 +3,6 @@ import { v4 } from 'node-uuid';
 // Fake in-memory implmenation of something
 // that would be return from a call to a REST server
 
-
 const fakeData = {
    sets: [{
      id: "abc",

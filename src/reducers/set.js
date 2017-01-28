@@ -11,11 +11,6 @@ const set = (
         interval: action.interval,
         completed: false
       };
-    // case 'REMOVE_SET':
-    //   if (state.id !== action.id) {
-    //     return;
-    //   }
-    //   return state;
     case 'TOGGLE_SET':
       if (state.id !== action.id) {
         return state

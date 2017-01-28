@@ -14,14 +14,13 @@ const StopwatchDisplay = ({
   onRunning,
   resetTime
 }) => {
-  // let intervalId;
   if (running) {
     setTimeout(onRunning, 10);
   }
-  // debugger
+
   let displayTime = moment(moment(time).diff(offset)).format("mm:ss.SS")
 
-  const startButton = 
+  const startButton =
     <button
       className="ui button"
       onClick={running ? stop : start} >
@@ -51,26 +50,9 @@ const mapStateToStopWatchProps = (
   offset: state.stopwatch.offset
 })
 
-// const mapDispatchToStopWatchProps = (
-//   dispatch
-// ) => ({
-//   start() {
-//     dispatch(startStopwatch());
-//   },
-//   stop() {
-//     dispatch(stopStopwatch())
-//   },
-//   onRunning() {
-//     dispatch(incrementTime());
-//   },
-//   resetTime() {
-//     dispatch(resetStopwatch())
-//   }
-// });
-
 const Stopwatch = connect(
   mapStateToStopWatchProps,
-  { 
+  {
     start: startStopwatch,
     stop: stopStopwatch,
     onRunning: incrementTime,

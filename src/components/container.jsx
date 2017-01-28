@@ -1,18 +1,13 @@
 import React from 'react';
 import Footer from './footer';
 import StopWatch from './stopwatchcontainer';
-// import AddSets from './setbuilder';
 import SetBuilder from './setbuildercontainer';
-// import SetList from './setlist';
 import SetList from './setlistcontainer';
 
 
 const MyApp = () => {
    return (
     <div className="ui container center aligned">
-      <h1 className="ui masthead">
-         Swim Coach Buddy
-      </h1>
       <div className="ui divider"></div>
       <main className="ui three column very relaxed grid center aligned">
         <SetBuilder />

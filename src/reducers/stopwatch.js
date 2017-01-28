@@ -15,13 +15,10 @@ const stopwatch = (
       return {
         ...state,
         time: moment(),
-        // time: state.time + (Date.now - state.offset),
-        // offset: action.time
       }
     case 'START_STOPWATCH':
       return {
         ...state,
-        // time : 0,
         running: true,
         offset: action.offset
       };
@@ -38,7 +35,7 @@ const stopwatch = (
       };
     default:
       return state;
-  } 
+  }
 }
 
 export default stopwatch

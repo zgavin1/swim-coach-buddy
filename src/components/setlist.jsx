@@ -11,10 +11,6 @@ import FetchError from './fetcherror';
 // continer component, ehances the SetList component with logic
 class VisibleSetList extends Component {
   componentDidMount() {
-    // debugger
-    // fetchSets(this.props.filter).then(sets =>
-    //   console.log(this.props.filter, sets)
-    // );
     this.fetchData();
   }
 
@@ -26,7 +22,6 @@ class VisibleSetList extends Component {
 
   fetchData() {
     const { filter, fetchSets } = this.props;
-    // const { filter, fetchSets, requestSets } = this.props;
     fetchSets(filter);
   }
 
@@ -74,26 +69,6 @@ const SetList = ({
   </ul>
 )
 
-// const getVisibleSets = (
-//   sets,
-//   filter
-// ) => {
-//   switch (filter) {
-//     case "all":
-//       return sets;
-//     case "completed":
-//       return sets.filter(
-//         s => s.completed
-//       );
-//     case "active":
-//       return sets.filter(
-//         s => !s.completed
-//       );
-//     default:
-//       return sets;
-//   }
-// }
-
 const mapStateToSetListProps = (state, { params }) => {
   const filter = params.filter || 'all';
   return {
@@ -103,19 +78,6 @@ const mapStateToSetListProps = (state, { params }) => {
     filter
   }
 };
-
-// const mapDispatchToSetListProps = (dispatch) => ({
-    // When the argument from the method and the 
-    // argument for the action are identical (here)
-    // can use shorthand in the connect method (below)
-
-    // onSetClick(id) {
-    //   dispatch(actions.toggleSet(id))
-    // },
-    // onSetClose(id) {
-    //   dispatch(actions.removeSet(id))
-    // }
-// });
 
 VisibleSetList = withRouter(connect(
   mapStateToSetListProps,
