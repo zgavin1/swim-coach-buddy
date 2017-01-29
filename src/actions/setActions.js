@@ -4,7 +4,8 @@ import * as schema from './schema';
 import * as api from './../api';
 import { getIsFetching } from './../reducers';
 
-// import * as realApi
+// import { request } from 'request';
+var request = require('request');
 
 export const addSet = (count, dist, interval) => (dispatch) =>
    api.addSet(count, dist, interval).then(response => {
@@ -40,21 +41,54 @@ export const fetchSets = (filter) => (dispatch, getState) => {
       filter
    })
 
-   return api.fetchSets(filter).then(
-      response => {
-         console.log('normalized response', normalize(response, schema.arrayOfSets))
-         dispatch({
-            type: "FETCH_SETS_SUCCESS",
-            filter,
-            response: normalize(response, schema.arrayOfSets)
-         })
-      },
-      error => {
-         dispatch({
-            type: "FETCH_SETS_FAILURE",
-            filter,
-            message: error.message || "Something went wrong."
-         })
-      }
-   );
+   return request
+        .get('http://localhost:3000/api/v1/sets')
+        .on('response', response => {
+            console.log(response.toJSON());
+        })
+        .on('error', error => {
+            console.log(error);
+        })
+
+        // .post('http://localhost:3000/api/v1/sets',
+        // {
+        //     count : 1,
+        //     dist : 25,
+        //     interval : 30
+        // })
+        // .on('response', response => {
+        //     console.log(response.toJSON());
+        // })
+        // .on('error', error => {
+        //     console.log(error);
+        // })
+   //      (e, res, body) => {
+   //     if (!error && response.statusCode == 200) {
+   //         console.log(body) // Show the body.
+   //     } else {
+   //          dispatch({
+   //              type: "FETCH_SETS_FAILURE",
+   //              filter,
+   //              message: error.message || "Something went wrong."
+   //          })
+   //     }
+   // })
+
+   // return api.fetchSets(filter).then(
+   //    response => {
+   //       console.log('normalized response', normalize(response, schema.arrayOfSets))
+   //       dispatch({
+   //          type: "FETCH_SETS_SUCCESS",
+   //          filter,
+   //          response: normalize(response, schema.arrayOfSets)
+   //       })
+   //    },
+   //    error => {
+   //       dispatch({
+   //          type: "FETCH_SETS_FAILURE",
+   //          filter,
+   //          message: error.message || "Something went wrong."
+   //       })
+   //    }
+   // );
 }

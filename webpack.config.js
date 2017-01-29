@@ -16,11 +16,21 @@ module.exports = {
         query: {
           presets: ['react', 'es2015', 'stage-2']
         }
+      },
+      {
+        test: /\.json?$/,
+        loader: 'json-loader'
       }
     ]
   },
   devtool: 'source-map',
   resolve: {
     extensions: ["", ".js", ".jsx"]
+  },
+  node: {
+    console: true,
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
   }
 };
