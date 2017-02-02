@@ -4,16 +4,31 @@ import * as schema from './schema';
 import * as api from './../api';
 import { getIsFetching } from './../reducers';
 
-// import { request } from 'request';
 var request = require('request');
 
-export const addSet = (count, dist, interval) => (dispatch) =>
-   api.addSet(count, dist, interval).then(response => {
-      dispatch({
-         type: "ADD_SET_SUCCESS",
-         response: normalize(response, schema.set)
-      })
-   })
+export const addSet = (count, dist, interval) => (dispatch) => {
+    var postReqBody = {
+        count: 6,
+        dist : 400,
+        interval : 100
+    }
+
+    request.post({
+        url: 'http://localhost:3000/api/v1/sets',
+        form: postReqBody,
+    },
+    function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var formattedResponse = JSON.parse(body);
+            dispatch({
+                type: "ADD_SET_SUCCESS",
+                response: normalize(formattedResponse, schema.set)
+            })
+        } else {
+            console.log('error');
+        }
+    })
+}
 
 export const removeSet = (id) => (dispatch) =>
    api.removeSet(id).then(response => {
@@ -37,58 +52,26 @@ export const fetchSets = (filter) => (dispatch, getState) => {
    }
 
    dispatch({
-      type: "FETCH_SETS_REQUEST",
-      filter
+    type: "FETCH_SETS_REQUEST",
+    filter
    })
 
-   return request
-        .get('http://localhost:3000/api/v1/sets')
-        .on('response', response => {
-            console.log(response.toJSON());
-        })
-        .on('error', error => {
-            console.log(error);
-        })
+   // Make request
+   request('http://localhost:3000/api/v1/sets', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            const resSets = JSON.parse(body);
 
-        // .post('http://localhost:3000/api/v1/sets',
-        // {
-        //     count : 1,
-        //     dist : 25,
-        //     interval : 30
-        // })
-        // .on('response', response => {
-        //     console.log(response.toJSON());
-        // })
-        // .on('error', error => {
-        //     console.log(error);
-        // })
-   //      (e, res, body) => {
-   //     if (!error && response.statusCode == 200) {
-   //         console.log(body) // Show the body.
-   //     } else {
-   //          dispatch({
-   //              type: "FETCH_SETS_FAILURE",
-   //              filter,
-   //              message: error.message || "Something went wrong."
-   //          })
-   //     }
-   // })
-
-   // return api.fetchSets(filter).then(
-   //    response => {
-   //       console.log('normalized response', normalize(response, schema.arrayOfSets))
-   //       dispatch({
-   //          type: "FETCH_SETS_SUCCESS",
-   //          filter,
-   //          response: normalize(response, schema.arrayOfSets)
-   //       })
-   //    },
-   //    error => {
-   //       dispatch({
-   //          type: "FETCH_SETS_FAILURE",
-   //          filter,
-   //          message: error.message || "Something went wrong."
-   //       })
-   //    }
-   // );
+            dispatch({
+                 type: "FETCH_SETS_SUCCESS",
+                 filter,
+                 response: normalize(resSets, schema.arrayOfSets)
+              })
+        } else {
+            dispatch({
+                 type: "FETCH_SETS_FAILURE",
+                 filter,
+                 message: error.message || "Something went wrong."
+             })
+        }
+    })
 }
