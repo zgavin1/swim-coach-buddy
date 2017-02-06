@@ -3,6 +3,7 @@ var router = express.Router();
 var pg = require('pg');
 var path = require('path');
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/swimapp';
+var v4 = require('node-uuid');
 
 router.get('/', function (req, res, next) {
   const results = [];
@@ -31,7 +32,7 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
   const results = [];
   // Grab data from http request
-  const data = {count: req.body.count, dist: req.body.dist, interval: req.body.interval, completed: false};
+  const data = {count: req.body.count, dist: req.body.dist, interval: req.body.interval, completed: false, id: v4()};
   // Get a Postgres client from the connection pool
   pg.connect(connectionString, (err, client, done) => {
     // Handle connection errors
@@ -40,19 +41,87 @@ router.post('/', function (req, res, next) {
       console.log(err);
       return res.status(500).json({success: false, data: err});
     }
+
     // SQL Query > Insert Data
-    client.query('INSERT INTO sets(count, dist, interval, completed) values($1, $2, $3, $4)',
-    [data.count, data.dist, data.interval, data.completed]);
-    // SQL Query > Select Data
-    const query = client.query('SELECT * FROM sets ORDER BY id ASC');
+    client.query('INSERT INTO sets(count, dist, interval, completed, id) values($1, $2, $3, $4, $5);',
+    [2, 2, 2, data.completed, data.id]);
+
+    const query = client.query('SELECT * FROM sets WHERE id=($1);',
+    [data.id]);
     // Stream results back one row at a time
     query.on('row', (row) => {
       results.push(row);
     });
+
     // After all data is returned, close connection and return results
     query.on('end', () => {
       done();
-      return res.json(data);
+      return res.json(results[0]);
+    });
+  });
+});
+
+router.put('/:set_id', function (req, res, next) {
+  const results = [];
+  // Grab data from http request
+  const data = {id: req.params.set_id};
+  // Get a Postgres client from the connection pool
+  pg.connect(connectionString, (err, client, done) => {
+    // Handle connection errors
+    if(err) {
+      done();
+      console.log(err);
+      return res.status(500).json({success: false, data: err});
+    }
+
+    // SQL Query > Update Data
+    client.query('UPDATE sets SET completed=(NOT completed) WHERE id=($1)',
+    [data.id]);
+
+    // SQL Query > Select Data
+    const query = client.query('SELECT * FROM sets WHERE id=($1)',
+    [data.id]);
+    // Stream results back one row at a time
+    query.on('row', (row) => {
+        results.push(row);
+    });
+    // After all data is returned, close connection and return results
+    query.on('end', () => {
+      done();
+      return res.json(results[0]);
+    });
+  });
+});
+
+
+router.delete('/:set_id', function (req, res, next) {
+    const results = [];
+  // Grab data from http request
+  const data = {id: req.params.set_id};
+  console.log(data);
+  // Get a Postgres client from the connection pool
+  pg.connect(connectionString, (err, client, done) => {
+    // Handle connection errors
+    if(err) {
+      done();
+      console.log(err);
+      return res.status(500).json({success: false, data: err});
+    }
+    const query = client.query('SELECT * FROM sets WHERE id=($1)',
+    [data.id]);
+    // Stream results back one row at a time
+    query.on('row', (row) => {
+        results.push(row);
+    });
+
+    // SQL Query > Delete Data
+    client.query('DELETE FROM sets WHERE id=($1)',
+    [data.id]);
+
+    query.on('end', () => {
+      done();
+      console.log(results);
+      return res.json(results[0]);
     });
   });
 });
