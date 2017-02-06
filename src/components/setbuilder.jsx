@@ -15,13 +15,18 @@ let AddSet = ({ dispatch }) => {
         if (dist.value === "" || count.value === "" || (minutes.value === "0" && seconds.value === "00")) {
           return;
         }
-        const displaySeconds = parseInt(seconds.value) < 10 ? "0" + seconds.value : seconds.value;
-        let displayMinutes = parseInt(minutes.value);
-        if (displayMinutes === 0) {
-          displayMinutes = "";
-        }
-        const displayInterval = minutes.value.slice(minutes.value.length - 2) + ":" + displaySeconds.slice(displaySeconds.length - 2);
-        dispatch(addSet(count.value, dist.value, displayInterval));
+        const distInt = parseInt(dist.value);
+        const countInt = parseInt(count.value);
+        const minutesInt = parseInt(minutes.value);
+        const secondsInt = parseInt(seconds.value);
+        // const displaySeconds = parseInt(seconds.value) < 10 ? "0" + seconds.value : seconds.value;
+        // let displayMinutes = parseInt(minutes.value);
+        // if (displayMinutes === 0) {
+        //   displayMinutes = "";
+        // }
+        // const displayInterval = minutes.value.slice(minutes.value.length - 2) + ":" + displaySeconds.slice(displaySeconds.length - 2);
+        const displayInterval = (minutesInt * 60) + secondsInt;
+        dispatch(addSet(countInt, distInt, displayInterval));
         document.getElementById('set-form').reset();
       }}
       id="set-form"

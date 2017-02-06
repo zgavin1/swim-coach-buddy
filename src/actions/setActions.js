@@ -7,11 +7,10 @@ import { getIsFetching } from './../reducers';
 var request = require('request');
 
 export const addSet = (count, dist, interval) => (dispatch) => {
-    console.log(count, dist, interval);
     var postReqBody = {
-        count: 2,
-        dist : 500,
-        interval : 100
+        count,
+        dist,
+        interval
     }
 
     request.post({

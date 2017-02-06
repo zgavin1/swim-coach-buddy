@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+// import { moment } from 'moment';
+var moment = require( 'moment' );
 
 const Set = ({
   onClick,
@@ -9,11 +11,13 @@ const Set = ({
   dist,
   interval
 }) => {
+    const displayInterval = moment.unix(interval).format('m:ss');
+
   return (
     <li style={{
         textDecoration: completed ? "line-through" : "none"
       }} >
-      <span onClick={onClick}>{count} x {dist} @ {interval}</span>
+      <span onClick={onClick}>{count} x {dist} @ {displayInterval}</span>
       <button onClick={removeSet}>Remove</button>
     </li>
   )

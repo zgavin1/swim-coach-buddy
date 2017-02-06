@@ -44,7 +44,7 @@ router.post('/', function (req, res, next) {
 
     // SQL Query > Insert Data
     client.query('INSERT INTO sets(count, dist, interval, completed, id) values($1, $2, $3, $4, $5);',
-    [2, 2, 2, data.completed, data.id]);
+    [data.count, data.dist, data.interval, data.completed, data.id]);
 
     const query = client.query('SELECT * FROM sets WHERE id=($1);',
     [data.id]);
@@ -98,7 +98,6 @@ router.delete('/:set_id', function (req, res, next) {
     const results = [];
   // Grab data from http request
   const data = {id: req.params.set_id};
-  console.log(data);
   // Get a Postgres client from the connection pool
   pg.connect(connectionString, (err, client, done) => {
     // Handle connection errors
@@ -120,7 +119,6 @@ router.delete('/:set_id', function (req, res, next) {
 
     query.on('end', () => {
       done();
-      console.log(results);
       return res.json(results[0]);
     });
   });
