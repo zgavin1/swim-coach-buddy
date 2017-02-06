@@ -7,6 +7,7 @@ import { getIsFetching } from './../reducers';
 var request = require('request');
 
 export const addSet = (count, dist, interval) => (dispatch) => {
+    console.log(count, dist, interval);
     var postReqBody = {
         count: 2,
         dist : 500,
@@ -19,9 +20,7 @@ export const addSet = (count, dist, interval) => (dispatch) => {
     },
     function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            console.log(body, 'body');
             var formattedResponse = JSON.parse(body);
-            // console.log(formattedResponse);
             dispatch({
                 type: "ADD_SET_SUCCESS",
                 response: normalize(formattedResponse, schema.set)
@@ -55,7 +54,6 @@ export const toggleSet = (id) => (dispatch) =>
     function (error, response, body) {
         if (!error && response.statusCode == 200) {
             var formattedResponse = JSON.parse(body);
-            // console.log(formattedResponse);
             dispatch({
                 type: "TOGGLE_SET_SUCCESS",
                 response: normalize(formattedResponse, schema.set)
@@ -78,7 +76,6 @@ export const fetchSets = (filter) => (dispatch, getState) => {
    request('http://localhost:3000/api/v1/sets', function (error, response, body) {
         if (!error && response.statusCode == 200) {
             const resSets = JSON.parse(body);
-
             dispatch({
                  type: "FETCH_SETS_SUCCESS",
                  filter,
