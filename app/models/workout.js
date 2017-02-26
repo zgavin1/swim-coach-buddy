@@ -1,15 +1,14 @@
-"use strict";
-
+'use strict';
 module.exports = function(sequelize, DataTypes) {
-    var Workout = sequelize.define("Workout", {
-        title: DataTypes.STRING
-    }, {
-        classMethods: {
-            associate: function(models) {
-                Workout.hasMany(models.User)
-            }
-        }
-    });
-
-    return Workout;
+  var Workout = sequelize.define('Workout', {
+    id: DataTypes.STRING
+  }, {
+    classMethods: {
+      associate: function(models) {
+        // associations can be defined here
+        Workout.hasMany(models.Set);
+      }
+    }
+  });
+  return Workout;
 };

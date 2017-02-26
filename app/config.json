@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "zacharygavin",
+    "password": null,
+    "database": "swimapp",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "zacharygavin",
+    "password": null,
+    "database": "swimapp",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "zacharygavin",
+    "password": null,
+    "database": "swimapp",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
