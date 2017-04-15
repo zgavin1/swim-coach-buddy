@@ -39,14 +39,29 @@ router.get('/:id', function(req, res) {
 });
 
 router.delete('/:id', function(req, res) {
-  console.log('params: ', req.params);
   models.Set.destroy({
     where: {
       id: req.params.id
     }
   }).then(function(set) {
-    console.log("set: ", set)
     res.json(set);
+  });
+});
+
+router.put('/:id', function(req, res) {
+  models.Set.find({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(set) {
+    if (set) {
+      set.set(
+        'completed',
+        !set.completed
+      ).save();
+      
+      return res.json(set);
+    }
   });
 });
 

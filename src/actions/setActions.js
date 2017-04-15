@@ -14,7 +14,7 @@ export const addSet = (count, dist, interval) => (dispatch) => {
     }
 
     request.post({
-        url: 'http://localhost:3000/api/v1/sets',
+        url: 'http://localhost:3000/sets',
         form: postReqBody,
     },
     function (error, response, body) {
@@ -32,14 +32,13 @@ export const addSet = (count, dist, interval) => (dispatch) => {
 
 export const removeSet = (id) => (dispatch) =>
     request.delete({
-        url : 'http://localhost:3000/api/v1/sets/' + id
+        url : 'http://localhost:3000/sets/' + id
     },
     function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            var formattedResponse = JSON.parse(body);
             dispatch({
                 type: "REMOVE_SET_SUCCESS",
-                response: normalize(formattedResponse, schema.set)
+                response: normalize({ id }, schema.set)
             })
         } else {
             console.log(error);
@@ -48,11 +47,12 @@ export const removeSet = (id) => (dispatch) =>
 
 export const toggleSet = (id) => (dispatch) =>
     request.put({
-        url: 'http://localhost:3000/api/v1/sets/' + id
+        url: 'http://localhost:3000/sets/' + id
     },
     function (error, response, body) {
         if (!error && response.statusCode == 200) {
             var formattedResponse = JSON.parse(body);
+            console.log(formattedResponse);
             dispatch({
                 type: "TOGGLE_SET_SUCCESS",
                 response: normalize(formattedResponse, schema.set)
@@ -72,7 +72,10 @@ export const fetchSets = (filter) => (dispatch, getState) => {
     filter
    })
 
-   request('http://localhost:3000/api/v1/sets', function (error, response, body) {
+   request({
+       url: 'http://localhost:3000/sets',
+       form: {filter} 
+   }, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             const resSets = JSON.parse(body);
             dispatch({
