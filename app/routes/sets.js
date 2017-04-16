@@ -28,42 +28,42 @@ router.get('/', function(req, res) {
   });
 });
 
-router.get('/:id', function(req, res) {
-  models.Set.find({
-    where: {
-      id: req.params.id
-    }
-  }).then(function(set) {
-    res.json(set);
-  });
-});
+// router.get('/:id', function(req, res) {
+//   models.Set.find({
+//     where: {
+//       id: req.params.id
+//     }
+//   }).then(function(set) {
+//     res.json(set);
+//   });
+// });
 
-router.delete('/:id', function(req, res) {
-  models.Set.destroy({
-    where: {
-      id: req.params.id
-    }
-  }).then(function(set) {
-    res.json(set);
-  });
-});
+// router.delete('/:id', function(req, res) {
+//   models.Set.destroy({
+//     where: {
+//       id: req.params.id
+//     }
+//   }).then(function(set) {
+//     res.json(set);
+//   });
+// });
 
-router.put('/:id', function(req, res) {
-  models.Set.find({
-    where: {
-      id: req.params.id
-    }
-  }).then(function(set) {
-    if (set) {
-      set.set(
-        'completed',
-        !set.completed
-      ).save();
+// router.put('/:id', function(req, res) {
+//   models.Set.find({
+//     where: {
+//       id: req.params.id
+//     }
+//   }).then(function(set) {
+//     if (set) {
+//       set.set(
+//         'completed',
+//         !set.completed
+//       ).save();
       
-      return res.json(set);
-    }
-  });
-});
+//       return res.json(set);
+//     }
+//   });
+// });
 
 // router.get('/', function (req, res, next) {
 //   const results = [];

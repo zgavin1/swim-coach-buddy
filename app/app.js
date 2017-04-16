@@ -6,7 +6,9 @@ var bodyParser = require('body-parser');
 var cors = require('cors')
 
 var sets = require('./routes/sets.js');
+var set = require('./routes/set.js');
 var workouts = require('./routes/workouts.js');
+var workout = require('./routes/workout.js');
 // var routes = require('./routes/index.js');
 
 var app = express();
@@ -23,7 +25,9 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/sets', sets);
+app.use('/set', set);
 app.use('/workouts', workouts);
+app.use('/workout', workout);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
