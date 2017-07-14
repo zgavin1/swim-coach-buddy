@@ -1,8 +1,7 @@
 import C from "./../constants";
 import { normalize } from 'normalizr';
 import * as schema from './schema';
-import * as api from './../api';
-import { getIsFetching } from './../reducers';
+import { getIsFetching } from './../reducers/sets';
 
 var request = require('request');
 
@@ -32,7 +31,7 @@ export const addSet = (count, dist, interval) => (dispatch) => {
 
 export const removeSet = (id) => (dispatch) =>
     request.delete({
-        url : 'http://localhost:3000/sets/' + id
+        url : 'http://localhost:3000/set/' + id
     },
     function (error, response, body) {
         if (!error && response.statusCode == 200) {
@@ -47,7 +46,7 @@ export const removeSet = (id) => (dispatch) =>
 
 export const toggleSet = (id) => (dispatch) =>
     request.put({
-        url: 'http://localhost:3000/sets/' + id
+        url: 'http://localhost:3000/set/' + id
     },
     function (error, response, body) {
         if (!error && response.statusCode == 200) {

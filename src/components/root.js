@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import App from './container';
 
-import { Router, Route, browserHistory, Link } from 'react-router'
+import { Router, Route, browserHistory, Link } from 'react-router';
 
 // browserHistory not supported by IE9
 

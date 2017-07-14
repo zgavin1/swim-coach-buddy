@@ -23,7 +23,7 @@ const configureStore = () => {
       applyMiddleware(...middlewares)
    );
    
-   return store;
+  //  return store;
 }
 
 export default configureStore
